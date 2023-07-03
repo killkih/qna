@@ -23,6 +23,8 @@ gem 'jbuilder', '~> 2.7'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'slim-rails'
 
+gem 'decent_exposure', '~> 3.0'
+
 # fix warning: already initialized constant Net::ProtocRetryError
 gem 'net-http', require: false
 gem 'net-imap', require: false
