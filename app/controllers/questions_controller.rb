@@ -3,10 +3,8 @@ class QuestionsController < ApplicationController
     @questions = Question.all
   end
 
-  def new
-  end
-  def show
-  end
+  def new; end
+  def show; end
 
   def create
     @question = Question.new(question_params)
@@ -27,8 +25,7 @@ class QuestionsController < ApplicationController
 
   end
 
-  def edit
-  end
+  def edit; end
 
   def destroy
     question.destroy
