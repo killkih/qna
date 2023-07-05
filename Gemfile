@@ -25,6 +25,8 @@ gem 'slim-rails'
 
 gem 'decent_exposure', '~> 3.0'
 
+gem 'devise'
+
 # fix warning: already initialized constant Net::ProtocRetryError
 gem 'net-http', require: false
 gem 'net-imap', require: false
