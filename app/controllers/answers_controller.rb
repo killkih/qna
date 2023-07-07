@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!
+
   expose :question
   expose :answer
 
@@ -6,9 +8,9 @@ class AnswersController < ApplicationController
     @ex_answer = question.answers.new(answer_params)
 
     if @ex_answer.save
-      redirect_to @ex_answer
+      redirect_to question_path(question), notice: 'Answer added successfully!'
     else
-      render :new
+      redirect_to question_path(question), notice: 'Error adding answer'
     end
   end
 
