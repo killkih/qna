@@ -8,6 +8,9 @@ h2 Answers
 
 -question.answers.each do |n|
   = n.body
+  -if user_signed_in? && n.valid?
+    br
+    = link_to 'Delete answer', answer_path(n.id.to_i), method: :delete
   br
 
 = form_with model: [question, @answer], local: true do |f|

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create :question }
   let(:user) { create(:user) }
+  let(:question) { create :question, user: user }
 
   describe 'POST #create' do
     before { login(user) }
@@ -20,7 +20,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'saves a answer with correct association' do
         operation
-        expect(assigns(:ex_answer).question_id).to eq question.id
+        expect(assigns(:exposed_answer).question_id).to eq question.id
       end
     end
 
@@ -34,6 +34,20 @@ RSpec.describe AnswersController, type: :controller do
       it 're-render new view' do
         expect(operation).to redirect_to question_path(question)
       end
+    end
+  end
+
+  describe 'PATCH #destroy' do
+    before { login(user) }
+
+    let!(:answer) { create(:answer, user: user, question: question) }
+
+    it 'delete the answer' do
+      expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+    end
+    it 'redirect to question' do
+      delete :destroy, params: { id: answer }
+      expect(response).to redirect_to question_path(question)
     end
   end
 end
