@@ -2,8 +2,11 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create :question }
+  let(:user) { create(:user) }
 
   describe 'POST #create' do
+    before { login(user) }
+
     context 'with valid attributes' do
       let(:operation) { post :create, params: { answer: attributes_for(:answer), question_id: question } }
 
@@ -12,7 +15,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'redirects to show view' do
-        expect(operation).to redirect_to assigns(:ex_answer)
+        expect(operation).to redirect_to question_path(question)
       end
 
       it 'saves a answer with correct association' do
@@ -29,7 +32,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 're-render new view' do
-        expect(operation).to render_template :new
+        expect(operation).to redirect_to question_path(question)
       end
     end
   end

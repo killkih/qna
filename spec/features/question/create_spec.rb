@@ -8,7 +8,7 @@ feature 'User can create question', %q{
 
   given(:user) { create(:user) }
 
-  describe 'Authentivated user' do
+  describe 'Authenticated user' do
     background do
       sign_in(user)
 

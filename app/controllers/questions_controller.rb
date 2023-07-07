@@ -6,10 +6,12 @@ class QuestionsController < ApplicationController
   end
 
   def new; end
-  def show; end
+  def show
+    @answer = question.answers.new
+  end
 
   def create
-    @question = Question.new(question_params)
+    @question = current_user.questions.build(question_params)
 
     if @question.save
       redirect_to @question, notice: 'Your question successfully created.'
@@ -30,8 +32,12 @@ class QuestionsController < ApplicationController
   def edit; end
 
   def destroy
-    question.destroy
-    redirect_to questions_path
+    if current_user.id == question.user_id
+      question.destroy
+      redirect_to questions_path, notice: 'Question successfully deleted!'
+    else
+      redirect_to question_path(question), notice: 'Only the author can delete a question!'
+    end
   end
 
   private
