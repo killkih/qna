@@ -5,12 +5,24 @@ class AnswersController < ApplicationController
   expose :answer
 
   def create
-    @ex_answer = question.answers.new(answer_params)
+    @exposed_answer = question.answers.new(answer_params)
+    @exposed_answer.user = current_user
 
-    if @ex_answer.save
+    if @exposed_answer.save
       redirect_to question_path(question), notice: 'Answer added successfully!'
     else
       redirect_to question_path(question), notice: 'Error adding answer'
+    end
+  end
+
+  def destroy
+      question = answer.question
+
+    if current_user.id == answer.user_id
+      answer.destroy
+      redirect_to question_path(question), notice: 'Answer successfully deleted!'
+    else
+      redirect_to question_path(question), notice: 'Only the author can delete a answer!'
     end
   end
 
