@@ -10,7 +10,7 @@ h2 Answers
   = n.body
   -if user_signed_in? && n.valid?
     br
-    = link_to 'Delete answer', answer_path(n.id.to_i), method: :delete
+    = link_to 'Delete answer', answer_path(n), method: :delete
   br
 
 = form_with model: [question, @answer], local: true do |f|
