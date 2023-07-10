@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AnswersController < ApplicationController
   before_action :authenticate_user!
 
@@ -35,5 +37,4 @@ class AnswersController < ApplicationController
   end
 
   helper_method :answer
-
 end

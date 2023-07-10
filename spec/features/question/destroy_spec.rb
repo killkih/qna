@@ -1,15 +1,15 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'Author can destroy his question', %q{
+feature 'Author can destroy his question', "
   In order not to clutter up the list
   As an author
   I'd like to be able to destroy my question
-} do
-
+" do
   given(:first_user) { create(:user) }
   given(:second_user) { create(:user) }
   given(:question) { create(:question, user: first_user) }
-
 
   scenario 'Author tries to destroy his question' do
     sign_in(first_user)

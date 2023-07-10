@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can view the list of questions', %q{
+feature 'User can view the list of questions', "
   In order to select question
   As an authenticated user
   I'd like to view a list of questions
-} do
+" do
   given(:user) { create(:user) }
   given!(:questions) { create_list(:question, 5) }
 
@@ -22,4 +24,3 @@ feature 'User can view the list of questions', %q{
     expect(page).to have_content questions[1].title
   end
 end
-
