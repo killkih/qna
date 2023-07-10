@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddUserToQuestion < ActiveRecord::Migration[6.1]
   def change
     change_table :questions do |t|

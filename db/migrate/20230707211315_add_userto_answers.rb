@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddUsertoAnswers < ActiveRecord::Migration[6.1]
   def change
     change_table :answers do |t|

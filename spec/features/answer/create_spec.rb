@@ -1,16 +1,16 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can add answer to the question', %q{
+feature 'User can add answer to the question', "
   In order to give answer to the community
   As an authenticated user
   I'd like to be able to add answer to the question
-} do
-
+" do
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
   describe 'Authenticated user' do
-
     background do
       sign_in(user)
       visit question_path(question)

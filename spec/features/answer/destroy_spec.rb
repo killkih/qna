@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can destroy his answer', %q{
+feature 'User can destroy his answer', "
   In order not to clutter up the list
   As an author of answer
   I'd like to be able to destroy my answer
-} do
-
+" do
   given(:first_user) { create(:user) }
   given(:second_user) { create(:user) }
   given(:question) { create(:question, user: first_user) }
