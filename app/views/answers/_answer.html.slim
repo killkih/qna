@@ -1,0 +1,5 @@
+p
+  = answer.body
+  -if user_signed_in? && answer.persisted?
+    br
+    = link_to 'Delete answer', answer_path(answer), method: :delete, data: { confirm: 'Are you sure?' }

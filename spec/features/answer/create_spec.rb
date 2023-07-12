@@ -10,7 +10,7 @@ feature 'User can add answer to the question', "
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background do
       sign_in(user)
       visit question_path(question)
@@ -20,13 +20,15 @@ feature 'User can add answer to the question', "
       fill_in 'Your Answer', with: 'test test test'
       click_on 'Post Your Answer'
 
-      expect(page).to have_content 'Answer added successfully!'
+      expect(page).to have_content 'test test test'
     end
+
     scenario 'Add answer with invalid data' do
       click_on 'Post Your Answer'
 
-      expect(page).to have_content 'Error adding answer'
+      expect(page).to have_content "Body can't be blank"
     end
+
   end
 
   scenario 'Unauthenticated user tries to add answer' do
