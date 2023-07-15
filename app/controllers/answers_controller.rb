@@ -15,10 +15,15 @@ class AnswersController < ApplicationController
 
     if current_user.id == answer.user_id
       answer.destroy
-      redirect_to question_path(@question), notice: 'Answer successfully deleted!'
+      redirect_to @question, notice: 'Answer successfully deleted!'
     else
-      redirect_to question_path(@question), notice: 'Only the author can delete a answer!'
+      redirect_to @question, notice: 'Only the author can delete a answer!'
     end
+  end
+
+  def update
+    answer.update(answer_params)
+    @question = answer.question
   end
 
   private
