@@ -24,8 +24,7 @@ feature 'User can destroy his answer', "
     sign_in(second_user)
 
     visit question_path(question)
-    click_on 'Delete answer'
 
-    expect(page).to have_content 'Only the author can delete a answer!'
+    expect(page).to_not have_link 'Delete answer'
   end
 end
