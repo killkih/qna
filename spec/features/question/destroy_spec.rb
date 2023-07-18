@@ -21,10 +21,8 @@ feature 'Author can destroy his question', "
   end
   scenario "User tries to destroy someone else's question" do
     sign_in(second_user)
-
     visit question_path(question)
-    click_on 'Delete question'
 
-    expect(page).to have_content 'Only the author can delete a question!'
+    expect(page).to_not have_link 'Delete question'
   end
 end
