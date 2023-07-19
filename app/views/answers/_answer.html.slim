@@ -1,8 +1,15 @@
 p
-  = answer.body
-  -if user_signed_in? && answer.persisted? && current_user == answer.user
+  -if answer.best
+    'Best answer:
     br
-    = link_to 'Delete answer', answer, method: :delete, remote: true
+  = answer.body
+  - if current_user == @question.user && answer.persisted? && !answer.best
+    br
+    = link_to 'Best', mark_as_best_answer_path(answer), method: :post, remote: true
+
+  -if answer.persisted? && current_user == answer.user
+    br
+    = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
     br
     = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
 

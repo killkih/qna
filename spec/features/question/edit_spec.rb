@@ -28,7 +28,6 @@ feature 'User can edit his question', %q{
         fill_in 'Body', with: 'test test test test'
         click_on 'Save'
 
-
         expect(page).to_not have_selector 'textarea'
         expect(page).to have_content 'edited question'
         expect(page).to_not have_content question.body
