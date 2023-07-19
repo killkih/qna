@@ -20,6 +20,11 @@ class AnswersController < ApplicationController
     @question = answer.question
   end
 
+  def mark_as_best
+    answer.mark_as_best
+    @question = answer.question
+  end
+
   private
 
   def answer_params

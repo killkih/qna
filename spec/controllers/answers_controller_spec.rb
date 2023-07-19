@@ -39,7 +39,7 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe 'PATCH #destroy' do
+  describe 'DELETE #destroy' do
     before { login(user) }
 
     let!(:answer) { create(:answer, user: user, question: question) }
@@ -83,6 +83,18 @@ RSpec.describe AnswersController, type: :controller do
         end.to_not change(answer, :body)
       end
     end
+  end
 
+  describe 'POST #mark_as_best' do
+    before { login(user) }
+
+    let!(:answer) { create(:answer, question: question, user: user) }
+
+    it 'marks answer as the best' do
+      expect do
+        post :mark_as_best, params: { id: answer }, format: :js
+        answer.reload
+      end.to change(answer, :best)
+    end
   end
 end
