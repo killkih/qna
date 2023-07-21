@@ -62,7 +62,6 @@ feature 'User can edit his answer', %q{
       click_on 'Edit'
 
       within '.answers' do
-        fill_in 'Your Answer', with: 'test test test'
         attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
         click_on 'Save'
       end
