@@ -32,7 +32,6 @@ feature 'User can edit his answer', %q{
         expect(page).to have_content 'edited answer'
         expect(page).to_not have_content answer.body
       end
-
     end
 
     scenario 'edits his answer with errors' do
@@ -54,6 +53,22 @@ feature 'User can edit his answer', %q{
       visit question_path(question)
 
       expect(page).to_not have_link 'Edit'
+    end
+
+    scenario 'edit answer with files' do
+      sign_in user
+      visit question_path(question)
+
+      click_on 'Edit'
+
+      within '.answers' do
+        fill_in 'Your Answer', with: 'test test test'
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Save'
+      end
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
     end
   end
 end

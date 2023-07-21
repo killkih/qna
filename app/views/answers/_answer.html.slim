@@ -20,5 +20,10 @@ p
 
     = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
       = f.label :body, 'Your answer'
+      br
       = f.text_area :body
-      = f.submit 'Save'
+      br
+      = f.label :files
+      br
+      = f.file_field :files, multiple: true, direct_upload: true
+      p= f.submit 'Save'
