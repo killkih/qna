@@ -29,7 +29,7 @@ feature 'User can add answer to the question', "
       expect(page).to have_content "Body can't be blank"
     end
 
-    scenario 'Add answer with attached file', js: true do
+    scenario 'Add answer with attached file' do
       fill_in 'Your Answer', with: 'test test test'
       attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
       click_on 'Post Your Answer'
