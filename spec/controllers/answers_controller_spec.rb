@@ -108,11 +108,9 @@ RSpec.describe AnswersController, type: :controller do
     }
 
     it 'delete attached file' do
-
       expect do
         delete :purge, params: {id: answer, file: answer.files[0] }, format: :js
       end.to change(answer.files, :count).by(-1)
-
     end
   end
 end
