@@ -38,6 +38,11 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def purge
+    file = question.files.find(params[:file])
+    file.purge
+  end
+
   private
 
   def question

@@ -11,5 +11,7 @@ Rails.application.routes.draw do
         delete 'purge/:file', to: "answers#purge", as: "purge"
       end
     end
+
+    delete 'purge/:file', to: "questions#purge", as: "purge", on: :member
   end
 end
