@@ -25,6 +25,12 @@ class AnswersController < ApplicationController
     @question = answer.question
   end
 
+  def purge
+    @question = answer.question
+    file = answer.files.find(params[:file])
+    file.purge
+  end
+
   private
 
   def answer_params

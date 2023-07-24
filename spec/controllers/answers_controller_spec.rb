@@ -97,4 +97,22 @@ RSpec.describe AnswersController, type: :controller do
       end.to change(answer, :best)
     end
   end
+
+  describe 'DELETE #purge' do
+    before { login(user) }
+
+    let!(:answer) { create(:answer,
+                           question: question,
+                           user: user,
+                           files: [Rack::Test::UploadedFile.new("#{Rails.root}/spec/rails_helper.rb")])
+    }
+
+    it 'delete attached file' do
+
+      expect do
+        delete :purge, params: {id: answer, file: answer.files[0] }, format: :js
+      end.to change(answer.files, :count).by(-1)
+
+    end
+  end
 end

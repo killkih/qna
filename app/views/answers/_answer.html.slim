@@ -1,5 +1,5 @@
 p
-  -if answer.best
+  - if answer.best
     'Best answer:
     br
   = answer.body
@@ -7,12 +7,16 @@ p
     - answer.files.each do |file|
       br
       = link_to file.filename.to_s, url_for(file)
+      - if current_user == answer.user
+        br
+        = link_to 'Delete file', purge_answer_path(answer, file), method: :delete, remote: true
+        br
 
   - if current_user == @question.user && answer.persisted? && !answer.best
     br
     = link_to 'Best', mark_as_best_answer_path(answer), method: :post, remote: true
 
-  -if answer.persisted? && current_user == answer.user
+  - if answer.persisted? && current_user == answer.user
     br
     = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
     br
