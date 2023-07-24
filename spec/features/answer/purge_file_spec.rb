@@ -6,6 +6,7 @@ feature 'Author of answer can delete attached file', %q{
   I'd like to be able to delete attached file
 } do
   given!(:user) { create(:user) }
+  given!(:other_user) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer,
                            question: question,
@@ -21,5 +22,18 @@ feature 'Author of answer can delete attached file', %q{
     end
 
     expect(page).to_not have_link 'rails_helper.rb'
+  end
+
+  scenario 'Other user can not delete attached file' do
+    sign_in other_user
+    visit question_path(question)
+
+    within('.answers') { expect(page).to_not have_link 'Delete file' }
+  end
+
+  scenario 'Unauthenticated user can not delete attached file' do
+    visit question_path(question)
+
+    within('.answers') { expect(page).to_not have_link 'Delete file' }
   end
 end
