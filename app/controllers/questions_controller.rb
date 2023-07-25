@@ -41,6 +41,7 @@ class QuestionsController < ApplicationController
   def purge
     file = question.files.find(params[:file])
     file.purge
+    redirect_to question_path(question)
   end
 
   private
