@@ -35,9 +35,9 @@ local:
 
 yandex:
   service: S3
-  access_key_id: ENV['YOUR_ACCESS_KEY_ID']
-  secret_access_key: ENV['YOUR_SECRET_ACCESS_KEY']
+  access_key_id: <%= ENV['YOUR_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['YOUR_SECRET_ACCESS_KEY'] %>
   region: ru-central3
-  bucket: qna-thinknetica-kuper
+  bucket: thinknetica-proj
   endpoint: 'https://storage.yandexcloud.net'
   force_path_style: true
