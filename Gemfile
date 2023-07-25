@@ -51,6 +51,8 @@ gem 'bootstrap', '~> 5.2.0'
 
 gem 'rails-ujs', '~> 0.1.0'
 
+gem 'aws-sdk-s3', require: false
+
 gem 'rubocop-rails_config', '~> 1.12', '>= 1.12.1'
 
 group :development, :test do
@@ -58,6 +60,7 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 6.0.0'
+  gem 'dotenv-rails'
 end
 
 group :development do
