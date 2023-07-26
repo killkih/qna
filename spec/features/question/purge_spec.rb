@@ -1,15 +1,19 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'Author of question can delete attached file', %q{
+feature 'Author of question can delete attached file', "
   In order to correct mistakes
   As an author of question
   I'd like to be able to delete attached file
-} do
+" do
   given!(:user) { create(:user) }
   given!(:other_user) { create(:user) }
-  given!(:question) { create(:question,
-                             user: user,
-                             files: [Rack::Test::UploadedFile.new("#{Rails.root}/spec/rails_helper.rb")]) }
+  given!(:question) do
+    create(:question,
+           user: user,
+           files: [Rack::Test::UploadedFile.new("#{Rails.root}/spec/rails_helper.rb")])
+  end
 
   scenario 'Author can delete attached file' do
     sign_in user

@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'Author of question can choose the best answer', %q{
+feature 'Author of question can choose the best answer', "
   In order to mark the most helpful answer
   As an author of question
   I'd like to be able to choose the best answer
-} do
+" do
   given!(:user) { create(:user) }
   given!(:other_user) { create(:user) }
   given!(:question) { create(:question, user: user) }
@@ -43,5 +45,4 @@ feature 'Author of question can choose the best answer', %q{
 
     expect(page).to_not have_link 'Best'
   end
-
 end
