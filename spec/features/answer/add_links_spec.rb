@@ -37,4 +37,20 @@ feature 'User can add links to answer', "
       expect(page).to have_content 'Links url must be a valid URL'
     end
   end
+
+  scenario 'Update answer with link', js: true do
+    sign_in user
+    create(:answer, question: question, user: user)
+    visit question_path(question)
+
+    within '.answers' do
+      click_on 'Edit'
+      click_on 'Add link'
+      fill_in 'Link name', with: 'test'
+      fill_in 'URL', with: gist_url
+      click_on 'Save'
+
+      expect(page).to have_link 'test', href: gist_url
+    end
+  end
 end
