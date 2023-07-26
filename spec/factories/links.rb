@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :link do
     name { 'MyString' }
-    url { 'MyString' }
+    url { 'https://gist.github.com/killkih/31cac7ae2aee63f88e23de9d256eef6d' }
   end
 end

@@ -5,10 +5,11 @@ p
   = answer.body
 
   .links
-    p Links:
-    ul
-      - answer.links.each do |link|
-        li= link_to link.name, link.url
+    - if answer.links.present?
+      p Links:
+      ul
+        - answer.links.each do |link|
+          li= link_to link.name, link.url
 
   - if answer.files.attached?
     - answer.files.each do |file|
@@ -20,7 +21,6 @@ p
         br
 
   - if current_user == @question.user && answer.persisted? && !answer.best
-    br
     = link_to 'Best', mark_as_best_answer_path(answer), method: :post, remote: true
 
   - if answer.persisted? && current_user == answer.user

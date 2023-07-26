@@ -1,20 +1,21 @@
 h1= question.title
 p= question.body
 
--if question.files.attached?
+- if question.files.attached?
   - question.files.each do |file|
     p= link_to file.filename.to_s, url_for(file)
-    -if current_user == question.user
+    - if current_user == question.user
       = link_to 'Delete file', purge_question_path(question, file), method: :delete
       br
 
 .links
-  p Links:
-  ul
-    - question.links.each do |link|
-      li= link_to link.name, link.url
+  - if question.links.present?
+    p Links:
+    ul
+      - question.links.each do |link|
+        li= link_to link.name, link.url
 
--if user_signed_in? && current_user == question.user
+- if user_signed_in? && current_user == question.user
   = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
   br
   .question-errors
