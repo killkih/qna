@@ -9,6 +9,7 @@ feature 'User can add links to question', "
 " do
   given(:user) { create(:user) }
   given(:gist_url) { 'https://gist.github.com/killkih/31cac7ae2aee63f88e23de9d256eef6d' }
+  given(:question) { create(:question, user: user) }
 
   describe 'User add link when asks question' do
     background do
@@ -32,6 +33,21 @@ feature 'User can add links to question', "
       click_on 'Ask'
 
       expect(page).to have_content 'Links url must be a valid URL'
+    end
+  end
+
+  scenario 'Update question with link', js: true do
+    sign_in user
+    visit question_path(question)
+
+    within '.question' do
+      click_on 'Edit'
+      click_on 'Add link'
+      fill_in 'Link name', with: 'test'
+      fill_in 'URL', with: gist_url
+      click_on 'Save'
+
+      expect(page).to have_link 'test', href: gist_url
     end
   end
 end
