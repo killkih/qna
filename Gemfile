@@ -53,6 +53,8 @@ gem 'rails-ujs', '~> 0.1.0'
 
 gem 'aws-sdk-s3', require: false
 
+gem "cocoon"
+
 gem 'rubocop-rails_config', '~> 1.12', '>= 1.12.1'
 
 group :development, :test do
