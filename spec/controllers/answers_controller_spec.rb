@@ -27,7 +27,9 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      let(:operation) { post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question }, format: :js }
+      let(:operation) do
+        post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question }, format: :js
+      end
 
       it 'does not save the answer' do
         expect { operation }.to_not change(Answer, :count)
@@ -60,13 +62,13 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with valid attributes' do
       it 'changes answer attributes' do
-        patch :update, params: { id: answer, answer: { body: 'new body'} }, format: :js
+        patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
         answer.reload
         expect(answer.body).to eq 'new body'
       end
 
       it 'renders update view' do
-        patch :update, params: { id: answer, answer: { body: 'new body'} }, format: :js
+        patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
         expect(response).to render_template :update
       end
     end
@@ -101,15 +103,16 @@ RSpec.describe AnswersController, type: :controller do
   describe 'DELETE #purge' do
     before { login(user) }
 
-    let!(:answer) { create(:answer,
-                           question: question,
-                           user: user,
-                           files: [Rack::Test::UploadedFile.new("#{Rails.root}/spec/rails_helper.rb")])
-    }
+    let!(:answer) do
+      create(:answer,
+             question: question,
+             user: user,
+             files: [Rack::Test::UploadedFile.new("#{Rails.root}/spec/rails_helper.rb")])
+    end
 
     it 'delete attached file' do
       expect do
-        delete :purge, params: {id: answer, file: answer.files[0] }, format: :js
+        delete :purge, params: { id: answer, file: answer.files[0] }, format: :js
       end.to change(answer.files, :count).by(-1)
     end
   end

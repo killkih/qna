@@ -8,10 +8,10 @@ Rails.application.routes.draw do
     resources :answers, shallow: true, only: %i[create destroy update] do
       member do
         post :mark_as_best
-        delete 'purge/:file', to: "answers#purge", as: "purge"
+        delete 'purge/:file', to: 'answers#purge', as: 'purge'
       end
     end
 
-    delete 'purge/:file', to: "questions#purge", as: "purge", on: :member
+    delete 'purge/:file', to: 'questions#purge', as: 'purge', on: :member
   end
 end
