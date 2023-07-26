@@ -37,4 +37,10 @@ p
       = f.label :files
       br
       = f.file_field :files, multiple: true, direct_upload: true
+      p Links:
+      div id='links'
+        = f.fields_for :links do |l|
+          = render 'link_fields', f: l
+        .links
+          = link_to_add_association 'Add link', f, :links
       p= f.submit 'Save'
