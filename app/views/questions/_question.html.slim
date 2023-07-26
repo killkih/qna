@@ -8,6 +8,12 @@ p= question.body
       = link_to 'Delete file', purge_question_path(question, file), method: :delete
       br
 
+.links
+  p Links:
+  ul
+    - question.links.each do |link|
+      li= link_to link.name, link.url
+
 -if user_signed_in? && current_user == question.user
   = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
   br
