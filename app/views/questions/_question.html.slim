@@ -34,6 +34,12 @@ p= question.body
     br
     = f.file_field :files, multiple: true, direct_upload: true
     br
+    p Links:
+    div id='question-links'
+      = f.fields_for :links do |l|
+        = render 'link_fields', f: l
+      .links
+        = link_to_add_association 'Add link', f, :links
     = f.submit 'Save'
 
   = link_to 'Delete question', question, method: :delete
