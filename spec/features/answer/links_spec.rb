@@ -10,6 +10,8 @@ feature 'User can add links to answer', "
   given(:user) { create(:user) }
   given(:question) { create(:question) }
   given(:gist_url) { 'https://gist.github.com/killkih/31cac7ae2aee63f88e23de9d256eef6d' }
+  given(:link) { create(:link, linkable: answer) }
+  given!(:answer) { create(:answer, user: user, question: question)}
 
   describe 'User add link when give an answer' do
 
@@ -40,7 +42,6 @@ feature 'User can add links to answer', "
 
   scenario 'Update answer with link', js: true do
     sign_in user
-    create(:answer, question: question, user: user)
     visit question_path(question)
 
     within '.answers' do
@@ -51,6 +52,19 @@ feature 'User can add links to answer', "
       click_on 'Save'
 
       expect(page).to have_link 'test', href: gist_url
+    end
+  end
+
+  scenario 'Delete answer link', js: true do
+    link
+    sign_in user
+    visit question_path(question)
+
+    within '.answers' do
+      click_on 'Edit'
+      click_on 'Remove link'
+      click_on 'Save'
+      expect(page).to_not have_link link.name, href: link.url
     end
   end
 end
