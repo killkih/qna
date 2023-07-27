@@ -10,6 +10,8 @@ feature 'User can add links to question', "
   given(:user) { create(:user) }
   given(:gist_url) { 'https://gist.github.com/killkih/31cac7ae2aee63f88e23de9d256eef6d' }
   given(:question) { create(:question, user: user) }
+  given!(:link) { create(:link, linkable: question_with_link) }
+  given(:question_with_link) { create(:question, user: user) }
 
   describe 'User add link when asks question' do
     background do
@@ -48,6 +50,18 @@ feature 'User can add links to question', "
       click_on 'Save'
 
       expect(page).to have_link 'test', href: gist_url
+    end
+  end
+
+  scenario 'Delete question link', js: true do
+    sign_in user
+    visit question_path(question_with_link)
+
+    within '.question' do
+      click_on 'Edit'
+      click_on 'Remove link'
+      click_on 'Save'
+      expect(page).to_not have_link link.name, href: link.url
     end
   end
 end
