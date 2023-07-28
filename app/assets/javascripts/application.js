@@ -5,4 +5,5 @@
 //= require bootstrap-sprockets
 //= require activestorage
 //= require cocoon
+//= require 'gist-embed.min'
 //= require_tree .
