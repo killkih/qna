@@ -14,6 +14,8 @@ p= question.body
     ul
       - question.links.each do |link|
         li= link_to link.name, link.url
+        - if link.gist?
+          code data-gist-id=link.gist_id
 
 - if user_signed_in? && current_user == question.user
   = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
