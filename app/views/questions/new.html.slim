@@ -13,6 +13,12 @@
     = f.label :files
     br
     = f.file_field :files, multiple: true
+
+  p Reward:
+  div id='reward'
+    = f.fields_for :reward do |r|
+      = render 'reward_fields', f: r
+
   p Links:
   div id='links'
     = f.fields_for :links do |l|
