@@ -14,4 +14,6 @@ Rails.application.routes.draw do
 
     delete 'purge/:file', to: 'questions#purge', as: 'purge', on: :member
   end
+
+  resources :rewards, only: :index
 end

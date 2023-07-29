@@ -1,0 +1,10 @@
+.nested-fields
+  .field
+    = f.label :title, 'Reward name'
+    br
+    = f.text_field :title
+  .field
+    = f.label :image
+    br
+    = f.file_field :image, accept: 'image/*'
+

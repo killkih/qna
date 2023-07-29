@@ -23,6 +23,9 @@ class AnswersController < ApplicationController
   def mark_as_best
     answer.mark_as_best
     @question = answer.question
+    reward = @question.reward
+    reward.user = answer.user
+    reward.save
   end
 
   def purge
