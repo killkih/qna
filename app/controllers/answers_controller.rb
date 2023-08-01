@@ -23,9 +23,7 @@ class AnswersController < ApplicationController
   def mark_as_best
     answer.mark_as_best
     @question = answer.question
-    reward = @question.reward
-    reward.user = answer.user
-    reward.save
+    set_reward if @question.reward
   end
 
   def purge
@@ -42,6 +40,12 @@ class AnswersController < ApplicationController
 
   def answer
     @answer ||= params[:id] ? Answer.with_attached_files.find(params[:id]) : Answer.new
+  end
+
+  def set_reward
+    reward = @question.reward
+    reward.user = answer.user
+    reward.save
   end
 
   helper_method :answer
