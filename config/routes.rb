@@ -4,8 +4,16 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'questions#index'
 
-  resources :questions, shallow: true do
-    resources :answers, shallow: true, only: %i[create destroy update] do
+  concern :votable do
+    member do
+      post :like
+      post :dislike
+      post :cancel_vote
+    end
+  end
+
+  resources :questions, concerns: :votable, shallow: true do
+    resources :answers, concerns: :votable, shallow: true, only: %i[create destroy update] do
       member do
         post :mark_as_best
         delete 'purge/:file', to: 'answers#purge', as: 'purge'

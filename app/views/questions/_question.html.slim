@@ -1,21 +1,36 @@
 h1= question.title
 p= question.body
 
-- if question.files.attached?
-  - question.files.each do |file|
+-if question.files.attached?
+  -question.files.each do |file|
     p= link_to file.filename.to_s, url_for(file)
-    - if current_user == question.user
+    -if current_user == question.user
       = link_to 'Delete file', purge_question_path(question, file), method: :delete
       br
 
 .links
-  - if question.links.present?
+  -if question.links.present?
     p Links:
     ul
-      - question.links.each do |link|
+      -question.links.each do |link|
         li= link_to link.name, link.url
-        - if link.gist?
+        -if link.gist?
           code data-gist-id=link.gist_id
+
+.vote
+  'Voted the question
+  br
+  -if signed_in?
+    -unless current_user.votes.where(votable_id: question).present?
+      div class='vote-buttons'
+        = link_to '+', like_question_path(question), method: :post, remote: true
+        br
+        = link_to '-', dislike_question_path(question), method: :post, remote: true
+    -else
+      = link_to 'Cancel vote', cancel_vote_question_path(question), method: :post, remote: true
+  'Rating:
+  .rating
+    = question.rating
 
 - if user_signed_in? && current_user == question.user
   = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
