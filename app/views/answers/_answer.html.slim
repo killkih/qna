@@ -1,4 +1,4 @@
-p
+div[id="answer-#{answer.id}"]
   - if answer.best
     'Best answer:
     br
@@ -14,10 +14,6 @@ p
             - if link.gist?
               code data-gist-id=link.gist_id
 
-
-
-
-
   - if answer.files.attached?
     - answer.files.each do |file|
       br
@@ -27,8 +23,24 @@ p
         = link_to 'Delete file', purge_answer_path(answer, file), method: :delete, remote: true
         br
 
-  - if current_user == @question.user && answer.persisted? && !answer.best
-    = link_to 'Best', mark_as_best_answer_path(answer), method: :post, remote: true
+  .vote
+    'Voted the answer
+    br
+    -if signed_in?
+      -unless current_user.votes.where(votable_id: answer).present?
+        div class='vote-buttons'
+          = link_to '+', like_answer_path(answer), method: :post, remote: true
+          br
+          = link_to '-', dislike_answer_path(answer), method: :post, remote: true
+      -else
+        = link_to 'Cancel vote', cancel_vote_answer_path(answer), method: :post, remote: true
+    'Rating:
+    .rating
+      = answer.rating
+
+  .mark-as-best
+    - if current_user == @question.user && answer.persisted? && !answer.best
+      = link_to 'Best', mark_as_best_answer_path(answer), method: :post, remote: true
 
   - if answer.persisted? && current_user == answer.user
     br
