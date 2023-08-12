@@ -1,20 +1,19 @@
 require 'rails_helper'
 
-feature 'User can upvote an answer', %q{
-  In order to mark the helpful answer
+feature 'User can upvote a question', %q{
+  In order to mark the helpful question
   As an user
-  I'd like to be able to upvote the answer
+  I'd like to be able to upvote the question
 } do
 
   given!(:author) { create(:user) }
   given!(:user) { create(:user) }
-  given!(:question) { create(:question) }
-  given!(:answer) { create(:answer, question: question, user: author) }
+  given!(:question) { create(:question, user: author) }
 
   scenario 'Unauthenticated user can not upvote' do
     visit question_path(question)
 
-    within '.answers' do
+    within '.question' do
       expect(page).to_not have_link '+'
       expect(page).to_not have_link '-'
       expect(page).to_not have_link 'Cancel vote'
@@ -27,8 +26,8 @@ feature 'User can upvote an answer', %q{
       visit question_path(question)
     end
 
-    scenario 'User can like the answer' do
-      within '.answers' do
+    scenario 'User can like the question' do
+      within '.question' do
         click_on '+'
 
         expect(page).to_not have_link '+'
@@ -38,8 +37,8 @@ feature 'User can upvote an answer', %q{
       end
     end
 
-    scenario 'User can dislike the answer' do
-      within '.answers' do
+    scenario 'User can dislike the question' do
+      within '.question' do
         click_on '-'
 
         expect(page).to_not have_link '+'
@@ -49,8 +48,8 @@ feature 'User can upvote an answer', %q{
       end
     end
 
-    scenario 'User can cancel vote the answer' do
-      within '.answers' do
+    scenario 'User can cancel vote the question' do
+      within '.question' do
         click_on '+'
         click_on 'Cancel vote'
 
@@ -68,15 +67,15 @@ feature 'User can upvote an answer', %q{
       visit question_path(question)
     end
 
-    scenario 'Author can not upvote the answer' do
-      within '.answers' do
+    scenario 'Author can not upvote the question' do
+      within '.question' do
         expect(page).to_not have_link '+'
         expect(page).to_not have_link '+'
       end
     end
 
     scenario 'Author can not cancel vote' do
-      within '.answers' do
+      within '.question' do
         expect(page).to_not have_link 'Cancel vote'
       end
     end

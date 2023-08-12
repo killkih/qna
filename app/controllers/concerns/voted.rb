@@ -4,17 +4,17 @@ module Voted
   included { before_action :set_votable, only: %i[like dislike cancel_vote] }
 
   def like
-    @votable.set_like(current_user)
+    @votable.set_like(current_user) unless current_user.author?(@votable)
     render_json
   end
 
   def dislike
-    @votable.set_dislike(current_user)
+    @votable.set_dislike(current_user) unless current_user.author?(@votable)
     render_json
   end
 
   def cancel_vote
-    @votable.cancel_vote(current_user)
+    @votable.cancel_vote(current_user) unless current_user.author?(@votable)
     render_json
   end
 
