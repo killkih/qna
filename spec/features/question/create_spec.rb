@@ -9,7 +9,7 @@ feature 'User can create question', "
 " do
   given(:user) { create(:user) }
 
-  describe 'Authenticated user' do
+  context 'Authenticated user' do
     background do
       sign_in(user)
 
@@ -52,7 +52,38 @@ feature 'User can create question', "
       click_on 'Ask'
 
     end
+  end
+
+  context 'multiple sessions' do
+    scenario "questions appears on another user's page", js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit questions_path
       end
+
+      Capybara.using_session('guest') do
+        visit questions_path
+      end
+
+      Capybara.using_session('user') do
+        click_on 'Ask question'
+
+        fill_in 'Title', with: 'Test question'
+        fill_in 'Body', with: 'text text text'
+        click_on 'Ask'
+
+        expect(page).to have_content 'Your question successfully created.'
+        expect(page).to have_content 'Test question'
+        expect(page).to have_content 'text text text'
+      end
+
+      Capybara.using_session('guest') do
+        save_and_open_page
+        expect(page).to have_content 'Test question'
+      end
+    end
+  end
+
   scenario 'Unauthenticated user tries to ask a question' do
     visit questions_path
     click_on 'Ask question'

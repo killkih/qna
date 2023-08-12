@@ -19,4 +19,14 @@ $(document).on('turbolinks:load', function (){
         $('.question  .vote .cancel-vote').hide();
         $('.question  .vote .rating').html(question.rating);
     });
+
+    App.cable.subscriptions.create('QuestionsChannel', {
+        connected() {
+            this.perform('follow');
+        },
+
+        received(data) {
+            $('.questions-list').append(`<a href="questions/${data.id}">${data.title}</a>`);
+        }
+    });
 });
