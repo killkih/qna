@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
+  let(:other_user) { create(:user) }
   let(:question) { create :question, user: user }
 
   describe 'POST #create' do
@@ -114,6 +115,127 @@ RSpec.describe AnswersController, type: :controller do
       expect do
         delete :purge, params: { id: answer, file: answer.files[0] }, format: :js
       end.to change(answer.files, :count).by(-1)
+    end
+  end
+
+  describe 'POST #like' do
+    let(:answer) { create(:answer, user: other_user) }
+
+    context 'unauthenticated user' do
+      it 'can not like the answer' do
+        expect {
+          post :like, params: { id: answer }, format: :json
+        }.to_not change(Vote, :count)
+      end
+    end
+
+    context 'authenticated user' do
+      before { login(user) }
+
+      it 'like the answer' do
+        expect {
+          post :like, params: { id: answer.id }, format: :json
+        }.to change(Vote, :count).by(1)
+      end
+
+      it 'render answer with json' do
+        body = { id: answer.id, rating: 1 }.to_json
+
+        post :like, params: { id: answer }, format: :json
+        expect(response.body).to eq body
+      end
+    end
+
+    context 'author of the answer' do
+      before { login(other_user) }
+
+      it 'can not like the answer' do
+        expect {
+          post :like, params: { id: answer }, format: :json
+        }.to_not change(Vote, :count)
+      end
+    end
+  end
+
+  describe 'POST #dislike' do
+    let(:answer) { create(:answer, user: other_user) }
+
+    context 'unauthenticated user' do
+      it 'can not dislike the answer' do
+        expect {
+          post :dislike, params: { id: answer }, format: :json
+        }.to_not change(Vote, :count)
+      end
+    end
+
+    context 'authenticated user' do
+      context 'user' do
+        before { login(user) }
+
+        it 'dislike answer' do
+          expect {
+            post :dislike, params: { id: answer }, format: :json
+          }.to change(Vote, :count).by(1)
+        end
+
+        it 'render answer with json' do
+          body = { id: answer.id, rating: -1 }.to_json
+
+          post :dislike, params: { id: answer }, format: :json
+          expect(response.body).to eq body
+        end
+      end
+
+      context 'author of the answer' do
+        before { login(other_user) }
+
+        it 'can not dislike the answer' do
+          expect {
+            post :dislike, params: { id: answer }, format: :json
+          }.to_not change(Vote, :count)
+        end
+      end
+    end
+  end
+
+  describe 'POST #cancel_vote' do
+    let(:answer) { create(:answer) }
+    let!(:vote) { create(:vote, user: user, votable: answer) }
+
+    context 'unauthenticated user' do
+      it 'can not cancel vote' do
+        expect {
+          post :cancel_vote, params: { id: answer }, format: :json
+        }.to_not change(Vote, :count)
+      end
+    end
+
+    context 'authenticated user' do
+      context 'user' do
+        before { login(user) }
+
+        it 'can cancel vote' do
+          expect {
+            post :cancel_vote, params: { id: answer }, format: :json
+          }.to change(Vote, :count).by(-1)
+        end
+
+        it 'render answer with json' do
+          post :cancel_vote, params: { id: answer }, format: :json
+          body = { id: answer.id, rating: answer.rating }.to_json
+          expect(response.body).to eq body
+        end
+      end
+
+      context 'author of the answer' do
+        before { login(other_user) }
+
+        it 'can not cancel vote' do
+          expect {
+            post :cancel_vote, params: { id: answer }, format: :json
+          }.to_not change(Vote, :count)
+        end
+      end
     end
   end
 end

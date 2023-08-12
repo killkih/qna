@@ -18,21 +18,24 @@ p= question.body
           code data-gist-id=link.gist_id
 
 .vote
-  'Voted the question
-  br
-  -if signed_in?
-    -unless current_user.votes.where(votable_id: question).present?
-      div class='vote-buttons'
-        = link_to '+', like_question_path(question), method: :post, remote: true
-        br
-        = link_to '-', dislike_question_path(question), method: :post, remote: true
-    -else
-      = link_to 'Cancel vote', cancel_vote_question_path(question), method: :post, remote: true
   'Rating:
   .rating
     = question.rating
+    br
 
-- if user_signed_in? && current_user == question.user
+  -if current_user != question.user && signed_in?
+    'Vote the question
+    br
+    div class="vote-buttons #{display_buttons(question)}"
+      = link_to '+', like_question_path(question), method: :post, remote: true
+      br
+      = link_to '-', dislike_question_path(question), method: :post, remote: true
+
+    = link_to 'Cancel vote', cancel_vote_question_path(question),
+                             method: :post, remote: true,
+                             class: "cancel-vote #{hide_buttons(question)}"
+
+- if signed_in? && current_user == question.user
   = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
   br
   .question-errors

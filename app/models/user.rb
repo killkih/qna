@@ -10,4 +10,12 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  def voted?(resource)
+    votes.where(votable_id: resource).present?
+  end
+
+  def author?(resource)
+    resource.user_id == id
+  end
 end

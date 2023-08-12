@@ -5,9 +5,18 @@ $(document).on('turbolinks:load', function (){
         const questionId = $(this).data('questionId');
         $('form#edit-question-' + questionId).removeClass('hidden');
     });
-    $('.question').on('ajax:success', '.vote', function (e) {
+
+    $('.question').on('ajax:success', '.vote-buttons', function (e) {
         const question = e.detail[0];
-        console.log(question);
-        $('.vote .rating').html(question.rating);
+        $('.question .vote .vote-buttons').hide();
+        $('.question  .vote .cancel-vote').show();
+        $('.question  .vote .rating').html(question.rating);
+    });
+
+    $('.question').on('ajax:success', '.cancel-vote', function (e) {
+        const question = e.detail[0];
+        $('.question  .vote .vote-buttons').show();
+        $('.question  .vote .cancel-vote').hide();
+        $('.question  .vote .rating').html(question.rating);
     });
 });
