@@ -10,7 +10,7 @@ feature 'User can add answer to the question', "
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
-  describe 'Authenticated user', js: true do
+  context 'Authenticated user', js: true do
     background do
       sign_in(user)
       visit question_path(question)
@@ -36,6 +36,30 @@ feature 'User can add answer to the question', "
 
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+  end
+
+  context 'multiple sessions' do
+    scenario "answers appears on another user's page", js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'Your Answer', with: 'test test test'
+        click_on 'Post Your Answer'
+
+        expect(page).to have_content 'test test test'
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'test test test'
+      end
     end
   end
 
