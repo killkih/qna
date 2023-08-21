@@ -78,7 +78,6 @@ feature 'User can create question', "
       end
 
       Capybara.using_session('guest') do
-        save_and_open_page
         expect(page).to have_content 'Test question'
       end
     end
