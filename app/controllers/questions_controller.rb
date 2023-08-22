@@ -4,6 +4,8 @@ class QuestionsController < ApplicationController
   include Voted
 
   before_action :authenticate_user!, except: %i[index show]
+  before_action :gon_question_id, only: [:show]
+  before_action :gon_question_user_id, only: [:show]
 
   after_action :publish_question, only: [:create]
 
@@ -54,6 +56,14 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def gon_question_id
+    gon.question_id = question.id
+  end
+
+  def gon_question_user_id
+    gon.question_user_id = question.user_id
+  end
 
   def publish_question
     return if question.errors.any?

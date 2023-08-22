@@ -1,0 +1,18 @@
+div[id="answer-#{@answer.id}"]
+  p= @answer.body
+
+  .vote
+    'Rating:
+    .rating
+      '0
+  - if gon.user_id && (@answer.user_id != gon.user_id)
+    div class='vote-buttons'
+        a data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@answer.id}/like" +
+        <br>
+        a data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@answer.id}/dislike" -
+    div class='cancel-vote hidden'
+        a data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@answer.id}/cancel_vote" Cancel vote
+
+  .mark-as-best
+    - if gon.question_user_id == gon.user_id && !@answer.best
+      a.best-answer-link data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@answer.id}/mark_as_best" Best answer
