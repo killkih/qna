@@ -7,6 +7,7 @@
 //= require cocoon
 //= require gist-embed.min
 //= require action_cable
+//= require skim
 //= require_tree .
 
 var App = App || {};

@@ -1,16 +1,13 @@
 $(document).on('turbolinks:load', function (){
-
-    const element = document.getElementById('question-id');
-    const questionId = element.getAttribute('data-question-id');
-
-    App.cable.subscriptions.create({ channel: 'AnswersChannel', question_id: questionId }, {
+    App.cable.subscriptions.create({ channel: 'AnswersChannel', question_id: gon.question_id }, {
         connected() {
             this.perform('follow');
-            console.log('connected to answer channel')
         },
 
         received(data) {
-            console.log(data)
+            if (gon.user_id != data.user_id) {
+                $('.answers').append(JST["templates/answer"]({answer: data}));
+            }
         }
     });
 });
