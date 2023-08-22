@@ -277,4 +277,32 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'POST #add_comment' do
+    let!(:question) { create(:question) }
+
+    context 'unauthenticated user' do
+      it 'can not add comment' do
+        expect {
+          post :add_comment, params: { id: question, body: 'test' }
+        }.to_not change(Comment, :count)
+      end
+    end
+
+    context 'authenticated user', js: true do
+      before { login(user) }
+
+      it 'can add comment with valid attributes' do
+        expect {
+          post :add_comment, params: { id: question, body: 'test' }, format: :js
+        }.to change(Comment, :count).by(1)
+      end
+
+      it 'can not add comment with invalid attributes' do
+        expect {
+          post :add_comment, params: { id: question, body: '' }, format: :js
+        }.to_not change(Comment, :count)
+      end
+    end
+  end
 end

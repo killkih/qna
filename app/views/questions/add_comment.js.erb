@@ -1,0 +1,4 @@
+<% if @comment.persisted? %>
+  $('.question .comments').append('<%= j render @comment %>');
+  $('.question .comments-form #body').val('');
+<% end %>

@@ -1,0 +1,6 @@
+= form_with url: "/#{commentable.class.name.downcase}s/#{commentable.id}/add_comment", local: false, class: 'new-comment' do |f|
+  = f.label :body, 'Comment'
+  br
+  = f.text_area :body
+  br
+  = f.submit 'Send'

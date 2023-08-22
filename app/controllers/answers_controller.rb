@@ -2,6 +2,7 @@
 
 class AnswersController < ApplicationController
   include Voted
+  include Commented
 
   before_action :authenticate_user!
   after_action :publish_answer, only: [:create]

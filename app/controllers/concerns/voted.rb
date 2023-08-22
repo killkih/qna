@@ -31,5 +31,4 @@ module Voted
   def render_json
     render json: {id: @votable.id, rating: @votable.rating}
   end
-
 end
