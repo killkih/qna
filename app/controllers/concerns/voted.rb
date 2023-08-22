@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Voted
   extend ActiveSupport::Concern
 
@@ -29,6 +31,6 @@ module Voted
   end
 
   def render_json
-    render json: {id: @votable.id, rating: @votable.rating}
+    render json: { id: @votable.id, rating: @votable.rating }
   end
 end

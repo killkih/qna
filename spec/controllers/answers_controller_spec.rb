@@ -123,9 +123,9 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'unauthenticated user' do
       it 'can not like the answer' do
-        expect {
+        expect do
           post :like, params: { id: answer }, format: :json
-        }.to_not change(Vote, :count)
+        end.to_not change(Vote, :count)
       end
     end
 
@@ -133,9 +133,9 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'like the answer' do
-        expect {
+        expect do
           post :like, params: { id: answer.id }, format: :json
-        }.to change(Vote, :count).by(1)
+        end.to change(Vote, :count).by(1)
       end
 
       it 'render answer with json' do
@@ -150,9 +150,9 @@ RSpec.describe AnswersController, type: :controller do
       before { login(other_user) }
 
       it 'can not like the answer' do
-        expect {
+        expect do
           post :like, params: { id: answer }, format: :json
-        }.to_not change(Vote, :count)
+        end.to_not change(Vote, :count)
       end
     end
   end
@@ -162,9 +162,9 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'unauthenticated user' do
       it 'can not dislike the answer' do
-        expect {
+        expect do
           post :dislike, params: { id: answer }, format: :json
-        }.to_not change(Vote, :count)
+        end.to_not change(Vote, :count)
       end
     end
 
@@ -173,9 +173,9 @@ RSpec.describe AnswersController, type: :controller do
         before { login(user) }
 
         it 'dislike answer' do
-          expect {
+          expect do
             post :dislike, params: { id: answer }, format: :json
-          }.to change(Vote, :count).by(1)
+          end.to change(Vote, :count).by(1)
         end
 
         it 'render answer with json' do
@@ -190,9 +190,9 @@ RSpec.describe AnswersController, type: :controller do
         before { login(other_user) }
 
         it 'can not dislike the answer' do
-          expect {
+          expect do
             post :dislike, params: { id: answer }, format: :json
-          }.to_not change(Vote, :count)
+          end.to_not change(Vote, :count)
         end
       end
     end
@@ -204,9 +204,9 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'unauthenticated user' do
       it 'can not cancel vote' do
-        expect {
+        expect do
           post :cancel_vote, params: { id: answer }, format: :json
-        }.to_not change(Vote, :count)
+        end.to_not change(Vote, :count)
       end
     end
 
@@ -215,9 +215,9 @@ RSpec.describe AnswersController, type: :controller do
         before { login(user) }
 
         it 'can cancel vote' do
-          expect {
+          expect do
             post :cancel_vote, params: { id: answer }, format: :json
-          }.to change(Vote, :count).by(-1)
+          end.to change(Vote, :count).by(-1)
         end
 
         it 'render answer with json' do
@@ -231,9 +231,9 @@ RSpec.describe AnswersController, type: :controller do
         before { login(other_user) }
 
         it 'can not cancel vote' do
-          expect {
+          expect do
             post :cancel_vote, params: { id: answer }, format: :json
-          }.to_not change(Vote, :count)
+          end.to_not change(Vote, :count)
         end
       end
     end
@@ -244,9 +244,9 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'unauthenticated user' do
       it 'can not add comment' do
-        expect {
+        expect do
           post :add_comment, params: { id: answer, body: 'test' }
-        }.to_not change(Comment, :count)
+        end.to_not change(Comment, :count)
       end
     end
 
@@ -254,15 +254,15 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'can add comment with valid attributes' do
-        expect {
+        expect do
           post :add_comment, params: { id: answer, body: 'test' }, format: :js
-        }.to change(Comment, :count).by(1)
+        end.to change(Comment, :count).by(1)
       end
 
       it 'can not add comment with invalid attributes' do
-        expect {
+        expect do
           post :add_comment, params: { id: answer, body: '' }, format: :js
-        }.to_not change(Comment, :count)
+        end.to_not change(Comment, :count)
       end
     end
   end

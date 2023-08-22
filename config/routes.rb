@@ -16,8 +16,8 @@ Rails.application.routes.draw do
     member { post :add_comment }
   end
 
-  resources :questions, concerns: [:votable, :commentable], shallow: true do
-    resources :answers, concerns: [:votable, :commentable], shallow: true, only: %i[create destroy update] do
+  resources :questions, concerns: %i[votable commentable], shallow: true do
+    resources :answers, concerns: %i[votable commentable], shallow: true, only: %i[create destroy update] do
       member do
         post :mark_as_best
         delete 'purge/:file', to: 'answers#purge', as: 'purge'

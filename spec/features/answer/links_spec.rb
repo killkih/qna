@@ -11,10 +11,9 @@ feature 'User can add links to answer', "
   given(:question) { create(:question) }
   given(:gist_url) { 'https://gist.github.com/killkih/31cac7ae2aee63f88e23de9d256eef6d' }
   given(:link) { create(:link, linkable: answer) }
-  given!(:answer) { create(:answer, user: user, question: question)}
+  given!(:answer) { create(:answer, user: user, question: question) }
 
   describe 'User add link when give an answer' do
-
     background do
       sign_in user
       visit question_path(question)
