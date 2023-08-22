@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'Authenticated user can comment the question', "
@@ -5,9 +7,8 @@ feature 'Authenticated user can comment the question', "
   As an authenticated user
   I'd like to be able to add comment
 " do
-
-  given!(:user){ create(:user) }
-  given!(:question){ create(:question) }
+  given!(:user) { create(:user) }
+  given!(:question) { create(:question) }
 
   context 'authenticated user', js: true do
     scenario 'add comment' do

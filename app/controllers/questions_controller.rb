@@ -68,6 +68,7 @@ class QuestionsController < ApplicationController
 
   def publish_question
     return if question.errors.any?
+
     ActionCable.server.broadcast('questions', question)
   end
 
@@ -79,7 +80,7 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body, files: [],
-                                     links_attributes: %i[id name url _destroy],
-                                     reward_attributes: %i[title image])
+                                                    links_attributes: %i[id name url _destroy],
+                                                    reward_attributes: %i[title image])
   end
 end

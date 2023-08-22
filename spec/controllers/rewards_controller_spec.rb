@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe RewardsController, type: :controller do
-
   describe 'GET #index' do
     let(:user) { create(:user) }
     let(:rewards) { create_list(:reward, 3, user: user) }

@@ -50,7 +50,6 @@ feature 'User can create question', "
       fill_in 'Reward name', with: 'Test name'
       attach_file 'Image', "#{Rails.root}/spec/files_for_test/img.png"
       click_on 'Ask'
-
     end
   end
 

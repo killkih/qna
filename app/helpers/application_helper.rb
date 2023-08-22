@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-
   def display_buttons(resource)
     'hidden' if current_user.voted?(resource)
   end

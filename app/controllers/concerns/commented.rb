@@ -21,9 +21,9 @@ module Commented
 
     case @commentable
     when Answer
-      ActionCable.server.broadcast("comments_channel_#{@commentable.question.id}", @comment )
+      ActionCable.server.broadcast("comments_channel_#{@commentable.question.id}", @comment)
     when Question
-      ActionCable.server.broadcast("comments_channel_#{@commentable.id}", @comment )
+      ActionCable.server.broadcast("comments_channel_#{@commentable.id}", @comment)
     end
   end
 

@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can upvote an answer', %q{
+feature 'User can upvote an answer', "
   In order to mark the helpful answer
   As an user
   I'd like to be able to upvote the answer
-} do
-
+" do
   given!(:author) { create(:user) }
   given!(:user) { create(:user) }
   given!(:question) { create(:question) }

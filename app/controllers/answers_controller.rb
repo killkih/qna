@@ -40,6 +40,7 @@ class AnswersController < ApplicationController
 
   def publish_answer
     return if answer.errors.any?
+
     ActionCable.server.broadcast("answers_channel_#{answer.question.id}", answer)
   end
 
