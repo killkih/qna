@@ -63,3 +63,11 @@ p= question.body
     = f.submit 'Save'
 
   = link_to 'Delete question', question, method: :delete
+
+.comments
+  b Comments:
+  = render question.comments
+
+.comments-form
+  -if signed_in?
+    = render 'comments/form', commentable: question

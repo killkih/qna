@@ -4,6 +4,7 @@ class Question < ApplicationRecord
   include HasLink
   include HasAttachedFiles
   include HasVote
+  include HasComment
 
   belongs_to :user
 
