@@ -1,0 +1,7 @@
+.row.justify-content-center
+  - if flash_message(:alert).present?
+    .alert.alert-warning.text-center.gy-2 role="alert"
+      = flash_message(:alert)
+  - elsif flash_message(:notice).present?
+    .alert.alert-primary.text-center.gy-2 role="notice"
+      = flash_message(:notice)
