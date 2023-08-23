@@ -53,6 +53,8 @@ gem 'turbolinks', '~> 5.2.0'
 
 gem 'bootstrap', '~> 5.2.0'
 
+gem 'coffee-rails'
+
 gem 'rails-ujs', '~> 0.1.0'
 
 gem 'omniauth'
