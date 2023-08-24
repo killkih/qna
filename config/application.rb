@@ -22,6 +22,8 @@ module Qna
     # config.eager_load_paths << Rails.root.join("extras")
     config.action_cable.disable_request_forgery_protection = false
 
+    config.autoload_paths += [config.root.join('app/services')]
+
     config.generators do |g|
       g.test_framework :rspec,
                        view_specs: false,
