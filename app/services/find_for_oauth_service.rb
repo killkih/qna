@@ -16,9 +16,11 @@ class FindForOauthService
     if user
       user.create_autorization(auth)
     else
-      password = Devise.friendly_token[0, 20]
-      user = User.create!(email: email, password: password, password_confirmation: password)
-      user.create_autorization(auth)
+      if email
+        password = Devise.friendly_token[0, 20]
+        user = User.create!(email: email, password: password, password_confirmation: password)
+        user.create_autorization(auth)
+      end
     end
 
     user
