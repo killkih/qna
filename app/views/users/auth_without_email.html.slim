@@ -1,0 +1,11 @@
+h1 Enter your email for authorization
+
+= render 'shared/errors', resource: @user
+
+= form_with scope: :user, url: auth_without_email_path do |f|
+  p
+    = f.label :email
+    br
+    = f.email_field :email
+
+  p= f.submit 'Send'
