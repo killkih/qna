@@ -66,4 +66,12 @@ RSpec.describe FindForOauthService do
       end
     end
   end
+
+  context 'oauth service does not give email' do
+    let(:auth) { OmniAuth::AuthHash.new(provider: 'vkontakte', uid: '123456', info: { email: nil }) }
+
+    it 'return nil' do
+      expect(subject.call).to be_nil
+    end
+  end
 end

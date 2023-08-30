@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks', confirmations: 'confirmations' }
   root to: 'questions#index'
+
+  post 'users/auth_without_email', to: 'users#auth_without_email', as: :auth_without_email
 
   concern :votable do
     member do

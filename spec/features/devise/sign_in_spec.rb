@@ -26,4 +26,65 @@ feature 'User can sign in', "
 
     expect(page).to have_content 'Invalid Email or password.'
   end
+
+  describe 'Oauth' do
+    describe 'github' do
+      given(:user) { create(:user, email: 'test@test.com') }
+
+      scenario 'unregistered user tries to sign in' do
+        mock_auth_hash(:github, 'test@test.com')
+        click_on 'Sign in with GitHub'
+
+        expect(page).to have_content 'Successfully authenticated from Github account.'
+      end
+
+      scenario 'registered user tries to sign in' do
+
+        mock_auth_hash(:github, user.email)
+        click_on 'Sign in with GitHub'
+
+        expect(page).to have_content 'Successfully authenticated from Github account.'
+      end
+    end
+
+    describe 'vkontakte' do
+      background do
+        mock_auth_hash(:vkontakte)
+        click_on 'Sign in with Vkontakte'
+      end
+
+      scenario 'unregistered user tries to sign in' do
+        clear_emails
+
+        fill_in 'Email', with: 'test@test.com'
+        click_on 'Send'
+
+        open_email('test@test.com')
+        current_email.click_on('Confirm my account')
+
+        expect(page).to have_content 'Your email address has been successfully confirmed.'
+      end
+
+      scenario 'registered user tries to sign in' do
+        create(:user, email: 'test@test.com')
+
+        fill_in 'Email', with: 'test@test.com'
+        click_on 'Send'
+
+        expect(page).to have_content 'Email has already been taken'
+      end
+
+      scenario 'email is blank' do
+        click_on 'Send'
+        expect(page).to have_content "Email can't be blan"
+      end
+
+      scenario 'email is invalid' do
+        fill_in 'Email', with: 'test'
+
+        click_on 'Send'
+        expect(page).to have_content 'Email is invalid'
+      end
+    end
+  end
 end
