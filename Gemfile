@@ -66,6 +66,8 @@ gem 'aws-sdk-s3', require: false
 
 gem 'cocoon'
 
+gem 'cancancan'
+
 gem 'underscore-rails'
 
 gem 'rubocop-rails_config', '~> 1.12', '>= 1.12.1'
