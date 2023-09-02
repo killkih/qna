@@ -46,6 +46,8 @@ RSpec.describe Ability do
       it { should_not be_able_to [:like, :dislike], question }
 
       it { should be_able_to :cancel_vote, votable_question }
+
+      it { should be_able_to :add_comment, question }
     end
 
     context 'Answer' do
@@ -71,10 +73,9 @@ RSpec.describe Ability do
       it { should_not be_able_to [:like, :dislike], answer }
 
       it { should be_able_to :cancel_vote, votable_answer }
+
+      it { should be_able_to :add_comment, answer }
     end
 
-    context 'Comment' do
-      it { should be_able_to :create, Comment }
-    end
   end
 end
