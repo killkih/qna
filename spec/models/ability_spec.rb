@@ -25,44 +25,52 @@ RSpec.describe Ability do
     let(:other) { create(:user, admin: false) }
     let(:file) { Rack::Test::UploadedFile.new("#{Rails.root}/spec/rails_helper.rb") }
     let(:question) { create(:question, user: user) }
-    let(:answer) { create(:answer, question: question) }
+    let(:other_question) { create(:question, user: other) }
 
     it { should_not be_able_to :manage, :all}
     it { should be_able_to :read, :all }
 
     context 'Question' do
+      let!(:vote) { create(:vote, user: user, votable: votable_question) }
+      let(:votable_question) { create(:question, user: other) }
+
       it { should be_able_to :create, Question }
 
-      it { should be_able_to :update, create(:question, user: user), user: user }
-      it { should_not be_able_to :update, create(:question, user: other), user: user }
-
-      it { should be_able_to :destroy, create(:question, user: user), user: user }
-      it { should_not be_able_to :destroy, create(:question, user: other), user: user }
+      it { should be_able_to [:update, :destroy], question, user: user }
+      it { should_not be_able_to [:update, :destroy], other_question, user: user }
 
       it { should be_able_to :purge, create(:question, files: file, user: user), user: user }
       it { should_not be_able_to :purge, create(:question, files: file, user: other), user: user }
 
-      it { should be_able_to :like, question, user: other }
-      it { should_not be_able_to :like, question, user: user }
+      it { should be_able_to [:like, :dislike], other_question }
+      it { should_not be_able_to [:like, :dislike], question }
 
-      it { should be_able_to :dislike, question, user: other }
-      it { should_not be_able_to :dislike, question, user: user }
+      it { should be_able_to :cancel_vote, votable_question }
     end
 
     context 'Answer' do
+      let(:answer) { create(:answer, question: question, user: user) }
+      let(:other_answer) { create(:answer, question: other_question, user: other) }
+      let!(:vote_answer) { create(:vote, user: user, votable: votable_answer) }
+      let(:votable_answer) { create(:answer, user: other) }
+
+      let(:other_answer) { create(:answer, user: other, question: other_question) }
+
       it { should be_able_to :create, Answer }
 
-      it { should be_able_to :update, create(:answer, user: user), user: user }
-      it { should_not be_able_to :update, create(:answer, user: other), user: user }
-
-      it { should be_able_to :destroy, create(:answer, user: user), user: user }
-      it { should_not be_able_to :destroy, create(:answer, user: other), user: user }
+      it { should be_able_to [:update, :destroy], answer, user: user }
+      it { should_not be_able_to [:update, :destroy], other_answer, user: user }
 
       it { should be_able_to :purge, create(:answer, files: file, user: user), user: user }
       it { should_not be_able_to :purge, create(:answer, files: file, user: other), user: user }
 
-      it { should be_able_to :mark_as_best, answer, question: { user: user } }
-      it { should_not be_able_to :mark_as_best, answer, question: { user: other } }
+      it { should be_able_to :mark_as_best, answer}
+      it { should_not be_able_to :mark_as_best, other_answer}
+
+      it { should be_able_to [:like, :dislike], other_answer }
+      it { should_not be_able_to [:like, :dislike], answer }
+
+      it { should be_able_to :cancel_vote, votable_answer }
     end
 
     context 'Comment' do
