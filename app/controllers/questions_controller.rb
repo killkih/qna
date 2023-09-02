@@ -44,7 +44,7 @@ class QuestionsController < ApplicationController
   def edit; end
 
   def destroy
-    if current_user.id == question.user_id
+    if can?(:destroy, question)
       question.destroy
       redirect_to questions_path, notice: 'Question successfully deleted!'
     else

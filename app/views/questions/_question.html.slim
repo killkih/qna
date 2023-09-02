@@ -4,7 +4,7 @@ p= question.body
 -if question.files.attached?
   -question.files.each do |file|
     p= link_to file.filename.to_s, url_for(file)
-    -if current_user == question.user
+    -if can?(:purge, question)
       = link_to 'Delete file', purge_question_path(question, file), method: :delete
       br
 
@@ -23,7 +23,7 @@ p= question.body
     = question.rating
     br
 
-  -if current_user != question.user && signed_in?
+  - if can?(:like, question)
     'Vote the question
     br
     div class="vote-buttons #{display_buttons(question)}"
@@ -35,7 +35,7 @@ p= question.body
                              method: :post, remote: true,
                              class: "cancel-vote #{hide_buttons(question)}"
 
-- if signed_in? && current_user == question.user
+- if can?(:update, question)
   = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
   br
   .question-errors
@@ -62,12 +62,14 @@ p= question.body
         = link_to_add_association 'Add link', f, :links
     = f.submit 'Save'
 
+- if can?(:destroy, question)
   = link_to 'Delete question', question, method: :delete
 
 .comments
-  b Comments:
-  = render question.comments
+  - if question.comments.present?
+    b Comments:
+    = render question.comments.order(:created_at)
 
 .comments-form
-  -if signed_in?
+  -if can?(:add_comment, question)
     = render 'comments/form', commentable: question
