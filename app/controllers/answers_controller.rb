@@ -7,6 +7,8 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   after_action :publish_answer, only: [:create]
 
+  authorize_resource
+
   def create
     @question = Question.find(params[:question_id])
     @answer = @question.answers.new(answer_params)
