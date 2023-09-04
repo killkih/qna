@@ -70,6 +70,8 @@ gem 'cocoon'
 
 gem 'cancancan'
 
+gem 'doorkeeper'
+
 gem 'underscore-rails'
 
 gem 'rubocop-rails_config', '~> 1.12', '>= 1.12.1'
