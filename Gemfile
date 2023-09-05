@@ -70,7 +70,11 @@ gem 'cocoon'
 
 gem 'cancancan'
 
+gem 'oj'
+
 gem 'doorkeeper'
+
+gem 'active_model_serializers', '~> 0.10'
 
 gem 'underscore-rails'
 

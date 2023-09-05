@@ -30,6 +30,18 @@ Rails.application.routes.draw do
     delete 'purge/:file', to: 'questions#purge', as: 'purge', on: :member
   end
 
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: [] do
+        get :me, on: :collection
+      end
+
+      resources :questions, only: [:index] do
+
+      end
+    end
+  end
+
   resources :rewards, only: :index
 
   mount ActionCable.server => '/cable'

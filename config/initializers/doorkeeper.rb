@@ -85,12 +85,12 @@ Doorkeeper.configure do
 
   # Authorization Code expiration time (default: 10 minutes).
   #
-  # authorization_code_expires_in 10.minutes
+  authorization_code_expires_in 2.hours
 
   # Access token expiration time (default: 2 hours).
   # If you want to disable expiration, set this to `nil`.
   #
-  # access_token_expires_in 2.hours
+  access_token_expires_in 24.hours
 
   # Assign custom TTL for access tokens. Will be used instead of access_token_expires_in
   # option if defined. In case the block returns `nil` value Doorkeeper fallbacks to
@@ -123,10 +123,9 @@ Doorkeeper.configure do
 
   # Reuse access token for the same resource owner within an application (disabled by default).
   #
-  # This option protects your application from creating new tokens before old **valid** one becomes
-  # expired so your database doesn't bloat. Keep in mind that when this option is enabled Doorkeeper
-  # doesn't update existing token expiration time, it will create a new token instead if no active matching
-  # token found for the application, resources owner and/or set of scopes.
+  # This option protects your application from creating new tokens before old valid one becomes
+  # expired so your database doesn't bloat. Keep in mind that when this option is `on` Doorkeeper
+  # doesn't updates existing token expiration time, it will create a new token instead.
   # Rationale: https://github.com/doorkeeper-gem/doorkeeper/issues/383
   #
   # You can not enable this option together with +hash_token_secrets+.
@@ -387,23 +386,6 @@ Doorkeeper.configure do
   # authorize_resource_owner_for_client do |client, resource_owner|
   #   resource_owner.admin? || client.owners_allowlist.include?(resource_owner)
   # end
-
-  # Allows additional data fields to be sent while granting access to an application,
-  # and for this additional data to be included in subsequently generated access tokens.
-  # The 'authorizations/new' page will need to be overridden to include this additional data
-  # in the request params when granting access. The access grant and access token models
-  # will both need to respond to these additional data fields, and have a database column
-  # to store them in.
-  #
-  # Example:
-  # You have a multi-tenanted platform and want to be able to grant access to a specific
-  # tenant, rather than all the tenants a user has access to. You can use this config
-  # option to specify that a ':tenant_id' will be passed when authorizing. This tenant_id
-  # will be included in the access tokens. When a request is made with one of these access
-  # tokens, you can check that the requested data belongs to the specified tenant.
-  #
-  # Default value is an empty Array: []
-  # custom_access_token_attributes [:tenant_id]
 
   # Hook into the strategies' request & response life-cycle in case your
   # application needs advanced customization or logging:

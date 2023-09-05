@@ -24,9 +24,9 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[6.1]
       t.string   :token,             null: false
       t.integer  :expires_in,        null: false
       t.text     :redirect_uri,      null: false
-      t.string   :scopes,            null: false, default: ''
       t.datetime :created_at,        null: false
       t.datetime :revoked_at
+      t.string   :scopes,            null: false, default: ''
     end
 
     add_index :oauth_access_grants, :token, unique: true
@@ -53,9 +53,9 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[6.1]
 
       t.string   :refresh_token
       t.integer  :expires_in
-      t.string   :scopes
-      t.datetime :created_at, null: false
       t.datetime :revoked_at
+      t.datetime :created_at, null: false
+      t.string   :scopes
 
       # The authorization server MAY issue a new refresh token, in which case
       # *the client MUST discard the old refresh token* and replace it with the
@@ -74,17 +74,7 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[6.1]
     end
 
     add_index :oauth_access_tokens, :token, unique: true
-
-    # See https://github.com/doorkeeper-gem/doorkeeper/issues/1592
-    if ActiveRecord::Base.connection.adapter_name == "SQLServer"
-      execute <<~SQL.squish
-        CREATE UNIQUE NONCLUSTERED INDEX index_oauth_access_tokens_on_refresh_token ON oauth_access_tokens(refresh_token)
-        WHERE refresh_token IS NOT NULL
-      SQL
-    else
-      add_index :oauth_access_tokens, :refresh_token, unique: true
-    end
-
+    add_index :oauth_access_tokens, :refresh_token, unique: true
     add_foreign_key(
       :oauth_access_tokens,
       :oauth_applications,
