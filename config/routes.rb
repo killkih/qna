@@ -37,7 +37,7 @@ Rails.application.routes.draw do
       end
 
       resources :questions, only: %i[index show] do
-
+        resources :answers, only: %i[index]
       end
     end
   end
