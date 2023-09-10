@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 describe 'Answers API', type: :request do
-  let(:headers) { { "CONTENT_TYPE" => "application/json",
-                    "ACCEPT" => "application/json" } }
+  let(:headers) { { "ACCEPT" => "application/json" } }
 
   describe 'GET /api/v1/questions/:question_id/answers' do
     let(:question) { create(:question) }
@@ -105,6 +104,140 @@ describe 'Answers API', type: :request do
         it 'returns list of comments' do
           expect(answer_response['links'].size).to eq 3
         end
+      end
+    end
+  end
+
+  describe 'POST /api/v1/questions/:question_id/answers' do
+    let!(:question) { create(:question) }
+    let(:api_path) { "/api/v1/questions/#{question.id}/answers" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :post }
+    end
+
+    context 'authorized' do
+      let(:access_token) { create(:access_token) }
+      let(:answer_response) { json['answer'] }
+
+      context 'valid answer params' do
+        let(:valid_request) { post api_path, params: { access_token: access_token.token, question_id: question,
+                                                       answer: attributes_for(:answer) }, headers: headers }
+
+        it 'returns 200 status' do
+          valid_request
+          expect(response).to be_successful
+        end
+
+        it 'returns all public fields' do
+          valid_request
+          %w[id best user_id body created_at updated_at].each do |attr|
+            expect(answer_response[attr]).to eq assigns(:answer).send(attr).as_json
+          end
+        end
+
+        it 'change database' do
+          expect { valid_request }.to change(Answer, :count).by(1)
+        end
+      end
+
+      context 'invalid answer params' do
+        let(:invalid_request) { post api_path, params: { access_token: access_token.token, question_id: question,
+                                                         answer: attributes_for(:answer, :invalid) }, headers: headers }
+
+        it 'returns unprocessable entity status' do
+          invalid_request
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'does not change database' do
+          expect { invalid_request }.to_not change(Answer, :count)
+        end
+
+        it 'returns errors message' do
+          invalid_request
+          expect(json['errors'].first).to eq "Body can't be blank"
+        end
+      end
+    end
+  end
+
+  describe 'PATCH /api/v1/questions/:id' do
+    let(:question) { create(:question) }
+    let(:answer) { create(:answer, question: question) }
+    let(:api_path) { "/api/v1/questions/#{question.id}/answers/#{answer.id}" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :patch }
+    end
+
+    context 'authorized' do
+      let(:access_token) { create(:access_token) }
+      let(:answer_response) { json['answer'] }
+
+      context 'with valid params' do
+        let(:valid_request) { patch api_path, params: { access_token: access_token.token, question_id: question,
+                                                        answer: attributes_for(:answer) }, headers: headers }
+
+        it 'returns 200 status' do
+          valid_request
+          expect(response).to be_successful
+        end
+
+        it 'returns all public fields' do
+          valid_request
+          %w[id best user_id body created_at updated_at].each do |attr|
+            expect(answer_response[attr]).to eq assigns(:answer).send(attr).as_json
+          end
+        end
+
+        it 'change database' do
+          expect { valid_request }.to change(Answer, :count).by(1)
+        end
+      end
+
+      context 'with invalid params' do
+        let(:invalid_request) { patch api_path, params: { access_token: access_token.token, question_id: question,
+                                                          answer: attributes_for(:answer, :invalid) }, headers: headers }
+
+        it 'returns unprocessable entity status' do
+          invalid_request
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'does not change database' do
+          expect { invalid_request }.to_not change(answer, :body)
+        end
+
+        it 'returns errors message' do
+          invalid_request
+          expect(json['errors'].first).to eq "Body can't be blank"
+        end
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/questions/:question_id/answers/:id' do
+    let!(:question) { create(:question) }
+    let!(:answer) { create(:answer) }
+    let(:api_path) { "/api/v1/questions/#{question.id}/answers/#{answer.id}" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :delete }
+    end
+
+    context 'authorized' do
+      let(:access_token) { create(:access_token) }
+      let(:valid_request) { delete api_path, params: { access_token: access_token.token, question_id: question,
+                                                       id: answer }, headers: headers }
+
+      it 'returns 200 status' do
+        valid_request
+        expect(response).to be_successful
+      end
+
+      it 'change database' do
+        expect { valid_request }.to change(Answer, :count).by(-1)
       end
     end
   end
