@@ -3,6 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
+  it_behaves_like 'voted'
+  it_behaves_like 'commented'
+
   let(:user) { create(:user) }
   let(:other_user) { create(:user) }
   let(:question) { create :question, user: user }
@@ -115,155 +118,6 @@ RSpec.describe AnswersController, type: :controller do
       expect do
         delete :purge, params: { id: answer, file: answer.files[0] }, format: :js
       end.to change(answer.files, :count).by(-1)
-    end
-  end
-
-  describe 'POST #like' do
-    let(:answer) { create(:answer, user: other_user) }
-
-    context 'unauthenticated user' do
-      it 'can not like the answer' do
-        expect do
-          post :like, params: { id: answer }, format: :json
-        end.to_not change(Vote, :count)
-      end
-    end
-
-    context 'authenticated user' do
-      before { login(user) }
-
-      it 'like the answer' do
-        expect do
-          post :like, params: { id: answer.id }, format: :json
-        end.to change(Vote, :count).by(1)
-      end
-
-      it 'render answer with json' do
-        body = { id: answer.id, rating: 1 }.to_json
-
-        post :like, params: { id: answer }, format: :json
-        expect(response.body).to eq body
-      end
-    end
-
-    context 'author of the answer' do
-      before { login(other_user) }
-
-      it 'can not like the answer' do
-        expect do
-          post :like, params: { id: answer }, format: :json
-        end.to_not change(Vote, :count)
-      end
-    end
-  end
-
-  describe 'POST #dislike' do
-    let(:answer) { create(:answer, user: other_user) }
-
-    context 'unauthenticated user' do
-      it 'can not dislike the answer' do
-        expect do
-          post :dislike, params: { id: answer }, format: :json
-        end.to_not change(Vote, :count)
-      end
-    end
-
-    context 'authenticated user' do
-      context 'user' do
-        before { login(user) }
-
-        it 'dislike answer' do
-          expect do
-            post :dislike, params: { id: answer }, format: :json
-          end.to change(Vote, :count).by(1)
-        end
-
-        it 'render answer with json' do
-          body = { id: answer.id, rating: -1 }.to_json
-
-          post :dislike, params: { id: answer }, format: :json
-          expect(response.body).to eq body
-        end
-      end
-
-      context 'author of the answer' do
-        before { login(other_user) }
-
-        it 'can not dislike the answer' do
-          expect do
-            post :dislike, params: { id: answer }, format: :json
-          end.to_not change(Vote, :count)
-        end
-      end
-    end
-  end
-
-  describe 'POST #cancel_vote' do
-    let(:answer) { create(:answer) }
-    let!(:vote) { create(:vote, user: user, votable: answer) }
-
-    context 'unauthenticated user' do
-      it 'can not cancel vote' do
-        expect do
-          post :cancel_vote, params: { id: answer }, format: :json
-        end.to_not change(Vote, :count)
-      end
-    end
-
-    context 'authenticated user' do
-      context 'user' do
-        before { login(user) }
-
-        it 'can cancel vote' do
-          expect do
-            post :cancel_vote, params: { id: answer }, format: :json
-          end.to change(Vote, :count).by(-1)
-        end
-
-        it 'render answer with json' do
-          post :cancel_vote, params: { id: answer }, format: :json
-          body = { id: answer.id, rating: answer.rating }.to_json
-          expect(response.body).to eq body
-        end
-      end
-
-      context 'author of the answer' do
-        before { login(other_user) }
-
-        it 'can not cancel vote' do
-          expect do
-            post :cancel_vote, params: { id: answer }, format: :json
-          end.to_not change(Vote, :count)
-        end
-      end
-    end
-  end
-
-  describe 'POST #add_comment' do
-    let!(:answer) { create(:answer) }
-
-    context 'unauthenticated user' do
-      it 'can not add comment' do
-        expect do
-          post :add_comment, params: { id: answer, body: 'test' }
-        end.to_not change(Comment, :count)
-      end
-    end
-
-    context 'authenticated user', js: true do
-      before { login(user) }
-
-      it 'can add comment with valid attributes' do
-        expect do
-          post :add_comment, params: { id: answer, body: 'test' }, format: :js
-        end.to change(Comment, :count).by(1)
-      end
-
-      it 'can not add comment with invalid attributes' do
-        expect do
-          post :add_comment, params: { id: answer, body: '' }, format: :js
-        end.to_not change(Comment, :count)
-      end
     end
   end
 end
