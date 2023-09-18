@@ -26,13 +26,9 @@ gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem 'slim-rails'
-
 gem 'gon'
-
 gem 'skim'
-
 gem 'decent_exposure', '~> 3.0'
-
 gem 'devise'
 
 # fix warning: already initialized constant Net::ProtocRetryError
@@ -46,38 +42,25 @@ gem 'net-smtp', require: false
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
-
 gem 'jquery-rails'
-
 gem 'turbolinks', '~> 5.2.0'
-
 gem 'bootstrap', '~> 5.2.0'
-
 gem 'coffee-rails'
-
 gem 'rails-ujs', '~> 0.1.0'
-
 gem 'omniauth'
-
 gem 'omniauth-github'
 gem 'omniauth-vkontakte'
-
 gem 'omniauth-rails_csrf_protection'
-
 gem 'aws-sdk-s3', require: false
-
 gem 'cocoon'
-
 gem 'cancancan'
-
+gem 'sidekiq', '~> 6.0'
+gem 'sinatra', require: false
+gem 'whenever', require: false
 gem 'oj'
-
 gem 'doorkeeper'
-
 gem 'active_model_serializers', '~> 0.10'
-
 gem 'underscore-rails'
-
 gem 'rubocop-rails_config', '~> 1.12', '>= 1.12.1'
 
 group :development, :test do
