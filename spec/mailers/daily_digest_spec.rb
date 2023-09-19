@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.describe DailyDigestMailer, type: :mailer do
   describe "digest" do
     let(:user) { create(:user) }
+    let!(:questions) { create_list(:question, 3) }
     let(:mail) { DailyDigestMailer.digest(user) }
 
     it "renders the headers" do
@@ -12,7 +13,7 @@ RSpec.describe DailyDigestMailer, type: :mailer do
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to match("Hi")
+      expect(mail.body.encoded).to match(questions.first.title)
     end
   end
 
