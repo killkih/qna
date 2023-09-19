@@ -41,6 +41,7 @@ RSpec.configure do |config|
   config.include OmniauthMacros
   config.include ApiHelpers, type: :request
 
+  Webdrivers::Chromedriver.required_version = '117.0.5938.88'
   Capybara.javascript_driver = :selenium_chrome_headless
   Capybara.default_max_wait_time = 10
 

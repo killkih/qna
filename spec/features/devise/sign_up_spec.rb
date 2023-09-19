@@ -15,7 +15,10 @@ feature 'User can sign up', "
     fill_in 'Email', with: 'test@test.com'
     fill_in 'Password', with: '12345678'
     fill_in 'Password confirmation', with: '12345678'
-    click_on 'Sign up'
+
+    within '.actions' do
+      click_on 'Sign up'
+    end
 
     open_email('test@test.com')
     current_email.click_on 'Confirm my account'
@@ -27,7 +30,10 @@ feature 'User can sign up', "
     fill_in 'Email', with: 'wrong@test.com'
     fill_in 'Password', with: nil
     fill_in 'Password confirmation', with: nil
-    click_on 'Sign up'
+
+    within '.actions' do
+      click_on 'Sign up'
+    end
 
     expect(page).to have_content "Password can't be blank"
   end

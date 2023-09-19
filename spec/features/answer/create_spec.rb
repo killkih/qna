@@ -69,6 +69,6 @@ feature 'User can add answer to the question', "
     fill_in 'Your Answer', with: 'test test test'
     click_on 'Post Your Answer'
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to have_content 'You are not authorized to access this page.'
   end
 end
