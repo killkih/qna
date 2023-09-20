@@ -9,6 +9,7 @@ class Question < ApplicationRecord
   belongs_to :user
 
   has_many :answers, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
   has_one :reward, dependent: :destroy
 
   accepts_nested_attributes_for :reward, reject_if: :all_blank
@@ -16,10 +17,15 @@ class Question < ApplicationRecord
   validates :title, :body, presence: true
 
   after_create :calculate_reputation
+  after_create :subscribe!
 
   private
 
   def calculate_reputation
     ReputationJob.perform_later(self)
+  end
+
+  def subscribe!
+    user.subscriptions.create(question: self)
   end
 end

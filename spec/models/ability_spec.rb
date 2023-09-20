@@ -25,6 +25,7 @@ RSpec.describe Ability do
     let(:other) { create(:user, admin: false) }
     let(:file) { Rack::Test::UploadedFile.new("#{Rails.root}/spec/rails_helper.rb") }
     let(:question) { create(:question, user: user) }
+    let(:subscription) { create(:subscription, user: user) }
     let(:other_question) { create(:question, user: other) }
 
     it { should_not be_able_to :manage, :all}
@@ -48,6 +49,9 @@ RSpec.describe Ability do
       it { should be_able_to :cancel_vote, votable_question }
 
       it { should be_able_to :add_comment, question }
+
+      it {should be_able_to :create, subscription }
+      it {should be_able_to :destroy, subscription }
     end
 
     context 'Answer' do

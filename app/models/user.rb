@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :rewards, dependent: :destroy
   has_many :votes, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -30,5 +31,9 @@ class User < ApplicationRecord
 
   def author?(resource)
     resource.user_id == id
+  end
+
+  def subscribed?(question)
+    subscriptions.find_by(question: question)
   end
 end

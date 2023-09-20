@@ -1,6 +1,13 @@
 h1= question.title
 p= question.body
 
+.subscription
+  - if can?(:create, Subscription)
+    - if current_user.subscribed?(question)
+      = button_to 'Unsubscribe', question_subscription_path(question), method: :delete, remote: true, class: 'btn btn-primary'
+    - else
+      = button_to 'Subscribe', question_subscription_path(question), method: :post, remote: true, class: 'btn btn-primary'
+
 -if question.files.attached?
   -question.files.each do |file|
     p= link_to file.filename.to_s, url_for(file)
