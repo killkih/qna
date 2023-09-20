@@ -29,7 +29,8 @@ class Ability
     guest_abilities
 
     can :me, User
-    can :create, [Question, Answer]
+    can :destroy, [Subscription]
+    can :create, [Question, Answer, Subscription]
     can :add_comment, [Question, Answer]
     can %i[update destroy purge], [Question, Answer], user_id: user.id
     can :mark_as_best, Answer, question: { user_id: user.id }

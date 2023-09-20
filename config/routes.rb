@@ -34,6 +34,8 @@ Rails.application.routes.draw do
     end
 
     delete 'purge/:file', to: 'questions#purge', as: 'purge', on: :member
+
+    resource :subscription, only: %i[create destroy]
   end
 
   namespace :api do
