@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Ability do
@@ -28,7 +30,7 @@ RSpec.describe Ability do
     let(:subscription) { create(:subscription, user: user) }
     let(:other_question) { create(:question, user: other) }
 
-    it { should_not be_able_to :manage, :all}
+    it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
 
     context 'Question' do
@@ -37,21 +39,21 @@ RSpec.describe Ability do
 
       it { should be_able_to :create, Question }
 
-      it { should be_able_to [:update, :destroy], question, user: user }
-      it { should_not be_able_to [:update, :destroy], other_question, user: user }
+      it { should be_able_to %i[update destroy], question, user: user }
+      it { should_not be_able_to %i[update destroy], other_question, user: user }
 
       it { should be_able_to :purge, create(:question, files: file, user: user), user: user }
       it { should_not be_able_to :purge, create(:question, files: file, user: other), user: user }
 
-      it { should be_able_to [:like, :dislike], other_question }
-      it { should_not be_able_to [:like, :dislike], question }
+      it { should be_able_to %i[like dislike], other_question }
+      it { should_not be_able_to %i[like dislike], question }
 
       it { should be_able_to :cancel_vote, votable_question }
 
       it { should be_able_to :add_comment, question }
 
-      it {should be_able_to :create, subscription }
-      it {should be_able_to :destroy, subscription }
+      it { should be_able_to :create, subscription }
+      it { should be_able_to :destroy, subscription }
     end
 
     context 'Answer' do
@@ -64,22 +66,21 @@ RSpec.describe Ability do
 
       it { should be_able_to :create, Answer }
 
-      it { should be_able_to [:update, :destroy], answer, user: user }
-      it { should_not be_able_to [:update, :destroy], other_answer, user: user }
+      it { should be_able_to %i[update destroy], answer, user: user }
+      it { should_not be_able_to %i[update destroy], other_answer, user: user }
 
       it { should be_able_to :purge, create(:answer, files: file, user: user), user: user }
       it { should_not be_able_to :purge, create(:answer, files: file, user: other), user: user }
 
-      it { should be_able_to :mark_as_best, answer}
-      it { should_not be_able_to :mark_as_best, other_answer}
+      it { should be_able_to :mark_as_best, answer }
+      it { should_not be_able_to :mark_as_best, other_answer }
 
-      it { should be_able_to [:like, :dislike], other_answer }
-      it { should_not be_able_to [:like, :dislike], answer }
+      it { should be_able_to %i[like dislike], other_answer }
+      it { should_not be_able_to %i[like dislike], answer }
 
       it { should be_able_to :cancel_vote, votable_answer }
 
       it { should be_able_to :add_comment, answer }
     end
-
   end
 end

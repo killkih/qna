@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddConfirmationEmail < ActiveRecord::Migration[6.1]
   change_table :users do |t|
     # Confirmable
@@ -7,5 +9,5 @@ class AddConfirmationEmail < ActiveRecord::Migration[6.1]
     t.string   :unconfirmed_email # Only if using reconfirmable
   end
 
-  add_index :users, :confirmation_token,   unique: true
+  add_index :users, :confirmation_token, unique: true
 end

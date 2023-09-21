@@ -41,11 +41,11 @@ RSpec.describe FindForOauthService do
       let(:auth) { OmniAuth::AuthHash.new(provider: 'github', uid: '123456', info: { email: 'new@user.com' }) }
 
       it 'creates new user' do
-        expect{ subject.call }.to change(User, :count).by(1)
+        expect { subject.call }.to change(User, :count).by(1)
       end
 
       it 'creates return new user' do
-        expect(subject.call).to  be_a(User)
+        expect(subject.call).to be_a(User)
       end
 
       it 'fills user email' do

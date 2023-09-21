@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class QuestionSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
 

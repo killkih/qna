@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module OmniauthMacros
   OmniAuth.config.test_mode = true
 
