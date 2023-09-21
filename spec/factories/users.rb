@@ -10,6 +10,6 @@ FactoryBot.define do
     password { '12345678' }
     password_confirmation { '12345678' }
 
-    after(:create) { |user| user.confirm }
+    after(:create, &:confirm)
   end
 end

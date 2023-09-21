@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Answers API', type: :request do
-  let(:headers) { { "ACCEPT" => "application/json" } }
+  let(:headers) { { 'ACCEPT' => 'application/json' } }
 
   describe 'GET /api/v1/questions/:question_id/answers' do
     let(:question) { create(:question) }
@@ -37,8 +39,10 @@ describe 'Answers API', type: :request do
 
   describe 'GET /api/v1/questions/:question_id/answers/:id' do
     let(:question) { create(:question) }
-    let(:answer) { create(:answer, question: question,
-                          files: [Rack::Test::UploadedFile.new("#{Rails.root}/spec/rails_helper.rb")]) }
+    let(:answer) do
+      create(:answer, question: question,
+                      files: [Rack::Test::UploadedFile.new("#{Rails.root}/spec/rails_helper.rb")])
+    end
     let!(:comments) { create_list(:comment, 3, commentable: answer) }
     let!(:links) { create_list(:link, 3, linkable: answer) }
     let(:api_path) { "/api/v1/questions/#{question.id}/answers/#{answer.id}" }
@@ -121,8 +125,10 @@ describe 'Answers API', type: :request do
       let(:answer_response) { json['answer'] }
 
       context 'valid answer params' do
-        let(:valid_request) { post api_path, params: { access_token: access_token.token, question_id: question,
-                                                       answer: attributes_for(:answer) }, headers: headers }
+        let(:valid_request) do
+          post api_path, params: { access_token: access_token.token, question_id: question,
+                                   answer: attributes_for(:answer) }, headers: headers
+        end
 
         it 'returns 200 status' do
           valid_request
@@ -142,8 +148,10 @@ describe 'Answers API', type: :request do
       end
 
       context 'invalid answer params' do
-        let(:invalid_request) { post api_path, params: { access_token: access_token.token, question_id: question,
-                                                         answer: attributes_for(:answer, :invalid) }, headers: headers }
+        let(:invalid_request) do
+          post api_path, params: { access_token: access_token.token, question_id: question,
+                                   answer: attributes_for(:answer, :invalid) }, headers: headers
+        end
 
         it 'returns unprocessable entity status' do
           invalid_request
@@ -176,8 +184,10 @@ describe 'Answers API', type: :request do
       let(:answer_response) { json['answer'] }
 
       context 'with valid params' do
-        let(:valid_request) { patch api_path, params: { access_token: access_token.token, question_id: question,
-                                                        answer: attributes_for(:answer) }, headers: headers }
+        let(:valid_request) do
+          patch api_path, params: { access_token: access_token.token, question_id: question,
+                                    answer: attributes_for(:answer) }, headers: headers
+        end
 
         it 'returns 200 status' do
           valid_request
@@ -197,8 +207,10 @@ describe 'Answers API', type: :request do
       end
 
       context 'with invalid params' do
-        let(:invalid_request) { patch api_path, params: { access_token: access_token.token, question_id: question,
-                                                          answer: attributes_for(:answer, :invalid) }, headers: headers }
+        let(:invalid_request) do
+          patch api_path, params: { access_token: access_token.token, question_id: question,
+                                    answer: attributes_for(:answer, :invalid) }, headers: headers
+        end
 
         it 'returns unprocessable entity status' do
           invalid_request
@@ -228,8 +240,10 @@ describe 'Answers API', type: :request do
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
-      let(:valid_request) { delete api_path, params: { access_token: access_token.token, question_id: question,
-                                                       id: answer }, headers: headers }
+      let(:valid_request) do
+        delete api_path, params: { access_token: access_token.token, question_id: question,
+                                   id: answer }, headers: headers
+      end
 
       it 'returns 200 status' do
         valid_request

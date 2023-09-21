@@ -1,5 +1,6 @@
-class UsersController < ApplicationController
+# frozen_string_literal: true
 
+class UsersController < ApplicationController
   def auth_without_email
     return redirect_to root_path unless session[:oauth]
 
@@ -23,5 +24,4 @@ class UsersController < ApplicationController
   def oauth
     Struct.new(:provider, :uid).new(session[:oauth]['provider'], session[:oauth]['uid'])
   end
-
 end

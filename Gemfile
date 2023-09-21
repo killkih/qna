@@ -25,11 +25,11 @@ gem 'jbuilder', '~> 2.7'
 gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-gem 'slim-rails'
-gem 'gon'
-gem 'skim'
 gem 'decent_exposure', '~> 3.0'
 gem 'devise'
+gem 'gon'
+gem 'skim'
+gem 'slim-rails'
 
 # fix warning: already initialized constant Net::ProtocRetryError
 gem 'net-http', require: false
@@ -41,27 +41,27 @@ gem 'net-smtp', require: false
 # gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
+gem 'active_model_serializers', '~> 0.10'
+gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.4.4', require: false
-gem 'jquery-rails'
-gem 'turbolinks', '~> 5.2.0'
 gem 'bootstrap', '~> 5.2.0'
+gem 'cancancan'
+gem 'cocoon'
 gem 'coffee-rails'
-gem 'rails-ujs', '~> 0.1.0'
+gem 'doorkeeper'
+gem 'jquery-rails'
+gem 'oj'
 gem 'omniauth'
 gem 'omniauth-github'
-gem 'omniauth-vkontakte'
 gem 'omniauth-rails_csrf_protection'
-gem 'aws-sdk-s3', require: false
-gem 'cocoon'
-gem 'cancancan'
+gem 'omniauth-vkontakte'
+gem 'rails-ujs', '~> 0.1.0'
+gem 'rubocop-rails_config', '~> 1.12', '>= 1.12.1'
 gem 'sidekiq', '~> 6.0'
 gem 'sinatra', require: false
-gem 'whenever', require: false
-gem 'oj'
-gem 'doorkeeper'
-gem 'active_model_serializers', '~> 0.10'
+gem 'turbolinks', '~> 5.2.0'
 gem 'underscore-rails'
-gem 'rubocop-rails_config', '~> 1.12', '>= 1.12.1'
+gem 'whenever', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -79,8 +79,8 @@ group :development do
   gem 'listen', '~> 3.3'
   gem 'rack-mini-profiler', '~> 2.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'letter_opener'
   gem 'spring'
-  gem "letter_opener"
 end
 
 group :test do
@@ -88,9 +88,9 @@ group :test do
   gem 'capybara', '>= 3.26'
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
+  gem 'capybara-email'
   gem 'launchy'
   gem 'rails-controller-testing'
   gem 'shoulda-matchers'
   gem 'webdrivers'
-  gem 'capybara-email'
 end

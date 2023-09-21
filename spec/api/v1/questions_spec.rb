@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Questions API', type: :request do
-  let(:headers) { { "ACCEPT" => "application/json" } }
+  let(:headers) { { 'ACCEPT' => 'application/json' } }
 
   describe 'GET /api/v1/questions' do
     let(:api_path) { '/api/v1/questions' }
@@ -104,7 +106,7 @@ describe 'Questions API', type: :request do
         let(:file) { question.files.first }
 
         it 'returns files urls' do
-            expect(files_response['url']).to eq rails_blob_url(file, only_path: true).as_json
+          expect(files_response['url']).to eq rails_blob_url(file, only_path: true).as_json
         end
 
         it 'returns list of files' do
@@ -141,8 +143,10 @@ describe 'Questions API', type: :request do
       let(:question_response) { json['question'] }
 
       context 'valid question params' do
-        let(:valid_request) { post api_path, params: { access_token: access_token.token,
-                                                        question: attributes_for(:question) }, headers: headers }
+        let(:valid_request) do
+          post api_path, params: { access_token: access_token.token,
+                                   question: attributes_for(:question) }, headers: headers
+        end
 
         it 'returns 200 status' do
           valid_request
@@ -162,8 +166,11 @@ describe 'Questions API', type: :request do
       end
 
       context 'invalid question params' do
-        let(:invalid_request) { post api_path, params: { access_token: access_token.token,
-                                                       question: attributes_for(:question, :invalid) }, headers: headers }
+        let(:invalid_request) do
+          post api_path, params: { access_token: access_token.token,
+                                   question: attributes_for(:question,
+                                                            :invalid) }, headers: headers
+        end
 
         it 'returns unprocessable entity status' do
           invalid_request
@@ -195,8 +202,10 @@ describe 'Questions API', type: :request do
       let(:question_response) { json['question'] }
 
       context 'with valid params' do
-        let(:valid_request) { patch api_path, params: { access_token: access_token.token, id: question.id,
-                                                       question: attributes_for(:question) }, headers: headers }
+        let(:valid_request) do
+          patch api_path, params: { access_token: access_token.token, id: question.id,
+                                    question: attributes_for(:question) }, headers: headers
+        end
 
         it 'returns 200 status' do
           valid_request
@@ -216,8 +225,10 @@ describe 'Questions API', type: :request do
       end
 
       context 'with invalid params' do
-        let(:invalid_request) { patch api_path, params: { access_token: access_token.token, id: question.id,
-                                                          question: attributes_for(:question, :invalid) }, headers: headers }
+        let(:invalid_request) do
+          patch api_path, params: { access_token: access_token.token, id: question.id,
+                                    question: attributes_for(:question, :invalid) }, headers: headers
+        end
 
         it 'returns unprocessable entity status' do
           invalid_request
@@ -246,7 +257,9 @@ describe 'Questions API', type: :request do
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
-      let(:valid_request) { delete api_path, params: { access_token: access_token.token, id: question}, headers: headers }
+      let(:valid_request) do
+        delete api_path, params: { access_token: access_token.token, id: question }, headers: headers
+      end
 
       it 'returns 200 status' do
         valid_request

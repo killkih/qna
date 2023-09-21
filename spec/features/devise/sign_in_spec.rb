@@ -39,7 +39,6 @@ feature 'User can sign in', "
       end
 
       scenario 'registered user tries to sign in' do
-
         mock_auth_hash(:github, user.email)
         click_on 'Sign in with GitHub'
 
