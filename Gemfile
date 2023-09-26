@@ -62,6 +62,7 @@ gem 'sinatra', require: false
 gem 'turbolinks', '~> 5.2.0'
 gem 'underscore-rails'
 gem 'whenever', require: false
+gem 'pg_search'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

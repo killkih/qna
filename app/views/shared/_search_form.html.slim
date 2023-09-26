@@ -1,0 +1,3 @@
+= form_tag results_path, method: :get, role: 'search' do
+  = text_field_tag :query, params[:query],  type: 'search', class: 'rounded me-2'
+  = submit_tag "Search", name: nil, class: 'btn btn-outline-primary me-3'

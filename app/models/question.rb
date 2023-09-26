@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
 class Question < ApplicationRecord
+  include PgSearch
   include HasLink
   include HasAttachedFiles
   include HasVote
   include HasComment
+
+  pg_search_scope :search_everywhere, against: [:title, :body]
 
   belongs_to :user
 
