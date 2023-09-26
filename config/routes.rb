@@ -52,5 +52,7 @@ Rails.application.routes.draw do
 
   resources :rewards, only: :index
 
+  get 'results', to: 'results#index', as: 'results'
+
   mount ActionCable.server => '/cable'
 end
