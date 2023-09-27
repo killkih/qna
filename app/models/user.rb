@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  include HasSearch
   include HasComment
+
+  multisearchable against: [:email, :id]
+  pg_search_scope :search, against: [:email, :id]
 
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy
