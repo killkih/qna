@@ -1,0 +1,20 @@
+- if resource.commentable.is_a?(Answer)
+  b Question:
+  br
+  = link_to resource.commentable.question.title[0..50], resource.commentable.question, class: 'text-decoration-none'
+  br
+  b Answer:
+  br
+  = resource.commentable.body[0..50]
+  br
+  b Comment:
+  br
+  = resource.body[0..50]
+- else
+  b Question:
+  br
+  = link_to resource.commentable.title[0..50], resource.commentable, class: 'text-decoration-none'
+  br
+  b Comment:
+  br
+  = resource.body[0..50]

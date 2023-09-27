@@ -1,5 +1,11 @@
-h3 Results of search of #{params[:query]}:
-- @search_results.each do |result|
-  = link_to result.title, result
-  div= result.body.html_safe
-  hr
+h3 Results of search by #{params[:query]}:
+- if @search_results.present?
+    - @search_results.each do |result|
+        - if result.is_a?(PgSearch::Document)
+            = render "results/#{result.searchable.class.name.underscore}", resource: result.searchable
+        - else
+            = render "results/#{result.class.name.underscore}", resource: result
+        hr
+- else
+    'Nothing found for this search
+
