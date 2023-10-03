@@ -63,7 +63,7 @@ gem 'turbolinks', '~> 5.2.0'
 gem 'underscore-rails'
 gem 'whenever', require: false
 gem 'pg_search'
-gem 'mini_racer'
+#gem 'mini_racer'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
