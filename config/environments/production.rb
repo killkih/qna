@@ -70,7 +70,7 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: 'smtp-relay.brevo.com',
-    port: 587,
+    port: 2525,
     user_name: Rails.application.credentials[Rails.env.to_sym][:mailer][:smtp_username],
     password: Rails.application.credentials[Rails.env.to_sym][:mailer][:smtp_password],
     authentication: 'plain',
