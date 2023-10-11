@@ -1,82 +1,83 @@
-h1= question.title
-p= question.body
+- cache question do
+  h1= question.title
+  p= question.body
 
-.subscription
-  - if can?(:create, Subscription)
-    - if current_user.subscribed?(question)
-      = button_to 'Unsubscribe', question_subscription_path(question), method: :delete, remote: true, class: 'btn btn-primary'
-    - else
-      = button_to 'Subscribe', question_subscription_path(question), method: :post, remote: true, class: 'btn btn-primary'
+  .subscription
+    - if can?(:create, Subscription)
+      - if current_user.subscribed?(question)
+        = button_to 'Unsubscribe', question_subscription_path(question), method: :delete, remote: true, class: 'btn btn-primary'
+      - else
+        = button_to 'Subscribe', question_subscription_path(question), method: :post, remote: true, class: 'btn btn-primary'
 
--if question.files.attached?
-  -question.files.each do |file|
-    p= link_to file.filename.to_s, url_for(file)
-    -if can?(:purge, question)
-      = link_to 'Delete file', purge_question_path(question, file), method: :delete
+  -if question.files.attached?
+    -question.files.each do |file|
+      p= link_to file.filename.to_s, url_for(file)
+      -if can?(:purge, question)
+        = link_to 'Delete file', purge_question_path(question, file), method: :delete
+        br
+
+  .links
+    -if question.links.present?
+      p Links:
+      ul
+        -question.links.each do |link|
+          li= link_to link.name, link.url
+          -if link.gist?
+            code data-gist-id=link.gist_id
+
+  .vote
+    'Rating:
+    .rating
+      = question.rating
       br
 
-.links
-  -if question.links.present?
-    p Links:
-    ul
-      -question.links.each do |link|
-        li= link_to link.name, link.url
-        -if link.gist?
-          code data-gist-id=link.gist_id
-
-.vote
-  'Rating:
-  .rating
-    = question.rating
-    br
-
-  - if can?(:like, question)
-    'Vote the question
-    br
-    div class="vote-buttons #{display_buttons(question)}"
-      = link_to '+', like_question_path(question), method: :post, remote: true
+    - if can?(:like, question)
+      'Vote the question
       br
-      = link_to '-', dislike_question_path(question), method: :post, remote: true
+      div class="vote-buttons #{display_buttons(question)}"
+        = link_to '+', like_question_path(question), method: :post, remote: true
+        br
+        = link_to '-', dislike_question_path(question), method: :post, remote: true
 
-    = link_to 'Cancel vote', cancel_vote_question_path(question),
-                             method: :post, remote: true,
-                             class: "cancel-vote #{hide_buttons(question)}"
+      = link_to 'Cancel vote', cancel_vote_question_path(question),
+                               method: :post, remote: true,
+                               class: "cancel-vote #{hide_buttons(question)}"
 
-- if can?(:update, question)
-  = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
-  br
-  .question-errors
-    = render 'shared/errors', resource: question
+  - if can?(:update, question)
+    = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
+    br
+    .question-errors
+      = render 'shared/errors', resource: question
 
-  = form_with model: question, local: false, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
-    = f.label :title, 'Your question'
-    br
-    = f.text_field :title
-    br
-    = f.label :body
-    br
-    = f.text_area :body
-    br
-    = f.label :files
-    br
-    = f.file_field :files, multiple: true, direct_upload: true
-    br
-    p Links:
-    div id='question-links'
-      = f.fields_for :links do |l|
-        = render 'link_fields', f: l
-      .links
-        = link_to_add_association 'Add link', f, :links
-    = f.submit 'Save'
+    = form_with model: question, local: false, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
+      = f.label :title, 'Your question'
+      br
+      = f.text_field :title
+      br
+      = f.label :body
+      br
+      = f.text_area :body
+      br
+      = f.label :files
+      br
+      = f.file_field :files, multiple: true, direct_upload: true
+      br
+      p Links:
+      div id='question-links'
+        = f.fields_for :links do |l|
+          = render 'link_fields', f: l
+        .links
+          = link_to_add_association 'Add link', f, :links
+      = f.submit 'Save'
 
-- if can?(:destroy, question)
-  = link_to 'Delete question', question, method: :delete
+  - if can?(:destroy, question)
+    = link_to 'Delete question', question, method: :delete
 
-.comments
-  - if question.comments.present?
-    b Comments:
-    = render question.comments.order(:created_at)
+  .comments
+    - if question.comments.present?
+      b Comments:
+      = render question.comments.order(:created_at)
 
-.comments-form
-  -if can?(:add_comment, question)
-    = render 'comments/form', commentable: question
+  .comments-form
+    -if can?(:add_comment, question)
+      = render 'comments/form', commentable: question
