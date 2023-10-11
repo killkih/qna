@@ -10,7 +10,7 @@ class Answer < ApplicationRecord
   multisearchable against: :body
   pg_search_scope :search, against: :body
 
-  belongs_to :question
+  belongs_to :question, touch: true
   belongs_to :user
 
   validates :body, presence: true

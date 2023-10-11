@@ -1,9 +1,10 @@
 - if can?(:create, Question)
   p= link_to 'Ask question', new_question_path
 
-h2 Questions
+- cache collection_cache_key_for :question do
+  h2 Questions
 
-.questions-list
-  -@questions.each do |n|
-    = link_to "#{n.title}", question_path(n)
-    br
+  .questions-list
+    -@questions.each do |n|
+      = link_to "#{n.title}", question_path(n)
+      br
